@@ -1,4 +1,4 @@
-package com.example.sufcwmillionsapplication;
+package uk.ac.kcl.sufcwmillionapplication;
 
 import org.junit.Test;
 

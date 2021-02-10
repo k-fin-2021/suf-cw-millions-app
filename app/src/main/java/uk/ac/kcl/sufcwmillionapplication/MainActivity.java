@@ -1,4 +1,4 @@
-package com.example.sufcwmillionsapplication;
+package uk.ac.kcl.sufcwmillionapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
