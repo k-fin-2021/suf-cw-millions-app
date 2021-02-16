@@ -2,9 +2,9 @@ name: Android CW App CI
 
 on:
   push:
-    branches: [ master, develope ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ master, develope ]
+    branches: [ master, develop ]
 
 jobs:
   build:
