@@ -2,14 +2,14 @@ name: Android CW App CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, develope ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, develope ]
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
