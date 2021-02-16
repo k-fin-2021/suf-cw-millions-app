@@ -1,8 +1,10 @@
-package uk.ac.kcl.sufcwmillionapplication;
+package uk.ac.kcl.sufcwmillionapplication.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import uk.ac.kcl.sufcwmillionapplication.R;
 
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = "MainAcitvity";

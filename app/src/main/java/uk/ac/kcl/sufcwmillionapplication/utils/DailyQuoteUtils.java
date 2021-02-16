@@ -31,6 +31,22 @@ public class DailyQuoteUtils {
         return result;
     }
 
+    public static String findQuoteUrl(String symbol, String startDate, String endData) {
+        String result = "";
+        long t1 = 0;
+        t1 = DateComponent.getEpochSeconds(startDate);
+        long t2 = 0;
+        t2 = DateComponent.getEpochSeconds(endData);
+        String url = "";
+        ArrayList<String> sq1 = null;
+        sq1 = Ocl.copySequence(Ocl.initialiseSequence("period1", "period2", "interval", "events"));
+        ArrayList<String> sq2 = null;
+        sq2 = Ocl.copySequence(Ocl.initialiseSequence((t1 + ""), (t2 + ""), "1d", "history"));
+        url = getURL(symbol, sq1, sq2);
+        result = url;
+        return result;
+    }
+
     public static String getURL(String command, ArrayList<String> pars, ArrayList<String> values) {
         String res = "https://query1.finance.yahoo.com/v7/finance/download/";
         if (command != null) {
