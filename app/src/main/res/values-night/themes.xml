@@ -2,15 +2,16 @@
     <!-- Base application theme. -->
     <style name="Theme.SufCwMillionApplication" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/kcl_red</item>
-        <item name="colorPrimaryVariant">@color/kcl_red</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/kcl_red_light</item>
+        <item name="colorPrimaryVariant">@color/kcl_red_light</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/kcl_grey</item>
         <item name="colorSecondaryVariant">@color/kcl_grey_secondary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/kcl_status_bar_bg</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/kcl_background</item>
     </style>
 </resources>

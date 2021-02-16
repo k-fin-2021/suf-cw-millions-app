@@ -10,7 +10,8 @@
         <item name="colorSecondaryVariant">@color/kcl_grey_secondary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/kcl_status_bar_bg</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/kcl_background</item>
     </style>
 </resources>

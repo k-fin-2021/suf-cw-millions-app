@@ -18,4 +18,8 @@
     <!-- Blue in header -->
     <color name="kcl_header_blue">#E4F0F4</color>
 
+    <!-- Background Color -->
+    <color name="kcl_status_bar_bg">#AFB3B4</color>
+    <color name="kcl_background">#F8F8F8</color>
+
 </resources>
