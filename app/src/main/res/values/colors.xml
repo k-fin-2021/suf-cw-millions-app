@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Red Color Series -->
+    <color name="kcl_red">#D6443C</color>
+    <color name="kcl_red_light">#E83332</color>
+    <color name="kcl_red_secondary">#E59691</color>
+
+    <!-- Grey Color Series -->
+    <color name="kcl_grey">#525252</color>
+    <color name="kcl_grey_secondary">#525252</color>
+    <color name="kcl_grey_light">#BDBDBD</color>
+    <color name="kcl_grey_error_hints">#808080</color>
+
+    <!-- Blue in header -->
+    <color name="kcl_header_blue">#E4F0F4</color>
+
+    <!-- Background Color -->
+    <color name="kcl_status_bar_bg">#AFB3B4</color>
+    <color name="kcl_background">#F8F8F8</color>
+
 </resources>
