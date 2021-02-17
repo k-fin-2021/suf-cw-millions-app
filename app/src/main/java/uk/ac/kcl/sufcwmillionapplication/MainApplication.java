@@ -1,4 +1,4 @@
-package uk.ac.kcl.sufcwmillionapplication.model;
+package uk.ac.kcl.sufcwmillionapplication;
 
 import android.app.Application;
 
