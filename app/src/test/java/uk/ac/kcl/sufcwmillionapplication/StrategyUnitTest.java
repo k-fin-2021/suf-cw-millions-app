@@ -9,7 +9,7 @@ import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
-import uk.ac.kcl.sufcwmillionapplication.strategy.EMAStrategy;
+import uk.ac.kcl.sufcwmillionapplication.indicators.EMAIndicators;
 import uk.ac.kcl.sufcwmillionapplication.utils.DailyQuoteUtils;
 import uk.ac.kcl.sufcwmillionapplication.utils.NetworkUtils;
 
@@ -41,7 +41,7 @@ public class StrategyUnitTest {
     @Test
     public void test_EMA_strategy(){
         System.out.println("=========== EMA =============");
-        EMAStrategy emaStrategy = new EMAStrategy();
+        EMAIndicators emaStrategy = new EMAIndicators();
         List<CalculateResult> results = emaStrategy.calculate(originData);
         for (CalculateResult result:results){
             System.out.println(result.toString());

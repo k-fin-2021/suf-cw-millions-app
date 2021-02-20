@@ -1,18 +1,14 @@
-package uk.ac.kcl.sufcwmillionapplication.strategy;
+package uk.ac.kcl.sufcwmillionapplication.indicators;
 
-import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 
-public class EMAStrategy implements FinanceStrategy{
+public class MACDAVGIndicators extends TechnicalIndicators {
 
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
-        return new ArrayList<>();
+        return null;
     }
-
 }
