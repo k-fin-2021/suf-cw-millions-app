@@ -41,7 +41,7 @@ public class StrategyUnitTest {
     @Test
     public void test_EMA_strategy(){
         System.out.println("=========== EMA =============");
-        EMAIndicators emaStrategy = new EMAIndicators();
+        EMAIndicators emaStrategy = new EMAIndicators(12);
         List<CalculateResult> results = emaStrategy.calculate(originData);
         for (CalculateResult result:results){
             System.out.println(result.toString());
