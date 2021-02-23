@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init() {
-        adapter = new MainRecAdapter();
+        adapter = new MainRecAdapter(this);
         if (histories!=null){
             adapter.setHistories(histories);
         }

@@ -8,6 +8,9 @@ import java.util.List;
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 
+/**
+ * EMA (C1+C2+C3+....+CN)/N
+ */
 public class EMAIndicators extends TechnicalIndicators {
 
     @Override
