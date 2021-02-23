@@ -10,6 +10,7 @@ import java.util.List;
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.indicators.EMAIndicators;
+import uk.ac.kcl.sufcwmillionapplication.indicators.MACDIndicators;
 import uk.ac.kcl.sufcwmillionapplication.utils.DailyQuoteUtils;
 import uk.ac.kcl.sufcwmillionapplication.utils.NetworkUtils;
 
@@ -48,4 +49,13 @@ public class StrategyUnitTest {
         }
     }
 
+    @Test
+    public void test_MACD_strategy(){
+        System.out.println("=========== MACD =============");
+        MACDIndicators macdStrategy = new MACDIndicators();
+        List<CalculateResult> results = macdStrategy.calculate(originData);
+        for (CalculateResult result:results){
+            System.out.println(result.toString());
+        }
+    }
 }
