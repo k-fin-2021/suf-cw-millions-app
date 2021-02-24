@@ -1,5 +1,6 @@
 package uk.ac.kcl.sufcwmillionapplication.indicators;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
@@ -9,6 +10,34 @@ public class SMAIndicators extends TechnicalIndicators {
 
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
-        return null;
+        double result = 0;
+        int dataFrame = 3;
+        List<CalculateResult> results = new ArrayList<>();
+        if (dailyQuoteList.size()<dataFrame){
+            for (DailyQuote dailyQuote:dailyQuoteList){
+                result+=dailyQuote.high;
+            }
+
+            CalculateResult calculateResult = new CalculateResult();
+            calculateResult.data = result/dailyQuoteList.size();
+            calculateResult.date = dailyQuoteList.get(dailyQuoteList.size()-1).date;
+            results.add(calculateResult);
+            return results;
+        }else {
+            int curPos = 0;
+            while (dailyQuoteList.size()-curPos>=dataFrame){
+                CalculateResult calculateResult = new CalculateResult();
+                double tmpResult = 0;
+                for (int index=curPos;index<curPos+dataFrame;index++){
+                    tmpResult+=dailyQuoteList.get(index).high;
+                }
+
+                calculateResult.data = tmpResult/dataFrame;
+                results.add(calculateResult);
+                curPos+=dataFrame;
+            }
+            return results;
+        }
+
     }
 }

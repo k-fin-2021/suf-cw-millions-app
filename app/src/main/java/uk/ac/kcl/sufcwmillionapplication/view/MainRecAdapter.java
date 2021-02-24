@@ -2,6 +2,7 @@ package uk.ac.kcl.sufcwmillionapplication.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.R;
+import uk.ac.kcl.sufcwmillionapplication.activity.AnalysisActivity;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
 import uk.ac.kcl.sufcwmillionapplication.bean.SimpleDate;
 
@@ -135,6 +137,8 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View view) {
                     Toast.makeText(mContext,"start search start name "+viewHolder.searchView.getText().toString()
                             +"  start date "+startDate.get(Calendar.DAY_OF_MONTH)+ " end date" + endDate.get(Calendar.DAY_OF_MONTH),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, AnalysisActivity.class);
+                    mContext.startActivity(intent);
                 }
             });
             Log.d(getClass().getCanonicalName(),"MAIN ITEM");
