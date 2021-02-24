@@ -38,6 +38,8 @@ public class IndicatorFactory {
             //TODO: Add initial logic here
         }else if(IndicatorNames.MACD_12_26.equals(indicatorName)){
             //TODO: Add initial logic here
+            indicators = new MACDIndicators();
+            beanMap.put(indicatorName, indicators);
         }else if(IndicatorNames.SMA_26.equals(indicatorName)){
             //TODO: Add initial logic here
         }else if (IndicatorNames.MACD_AVG.equals(indicatorName)){
