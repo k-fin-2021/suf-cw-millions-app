@@ -11,7 +11,7 @@ public class DailyQuote {
         DailyQuote_allInstances.add(this);
     }
 
-    static DailyQuote createDailyQuote() {
+    public static DailyQuote createDailyQuote() {
         DailyQuote result = new DailyQuote();
         return result;
     }
