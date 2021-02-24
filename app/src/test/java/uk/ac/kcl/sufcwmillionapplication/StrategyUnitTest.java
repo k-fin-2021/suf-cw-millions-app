@@ -10,7 +10,7 @@ import java.util.List;
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.indicators.EMAIndicators;
-import uk.ac.kcl.sufcwmillionapplication.indicators.SMAIndicators;
+import uk.ac.kcl.sufcwmillionapplication.indicators.MACDIndicators;
 import uk.ac.kcl.sufcwmillionapplication.utils.DailyQuoteUtils;
 import uk.ac.kcl.sufcwmillionapplication.utils.NetworkUtils;
 
@@ -42,24 +42,20 @@ public class StrategyUnitTest {
     @Test
     public void test_EMA_strategy(){
         System.out.println("=========== EMA =============");
-        EMAIndicators emaStrategy = new EMAIndicators();
+        EMAIndicators emaStrategy = new EMAIndicators(12);
         List<CalculateResult> results = emaStrategy.calculate(originData);
         for (CalculateResult result:results){
             System.out.println(result.toString());
         }
     }
 
-
     @Test
-    public void test_SMA_strategy(){
-        System.out.println("=========== SMA =============");
-        SMAIndicators smaIndicators = new SMAIndicators();
-        List<CalculateResult> results = smaIndicators.calculate(originData);
+    public void test_MACD_strategy(){
+        System.out.println("=========== MACD =============");
+        MACDIndicators macdStrategy = new MACDIndicators();
+        List<CalculateResult> results = macdStrategy.calculate(originData);
         for (CalculateResult result:results){
             System.out.println(result.toString());
         }
-        System.out.println("=========== SMA END=============");
-
     }
-
 }
