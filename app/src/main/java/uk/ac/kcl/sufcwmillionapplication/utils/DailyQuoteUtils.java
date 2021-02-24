@@ -20,7 +20,7 @@ public class DailyQuoteUtils {
         long t1 = 0;
         t1 = DateComponent.getEpochSeconds(date);
         long t2 = 0;
-        t2 = (t1 + 40 * 86400);
+        t2 = (t1 + 7 * 86400);
         String url = "";
         ArrayList<String> sq1 = null;
         sq1 = Ocl.copySequence(Ocl.initialiseSequence("period1", "period2", "interval", "events"));
