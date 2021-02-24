@@ -10,8 +10,6 @@ import uk.ac.kcl.sufcwmillionapplication.api.impl.YahooShareDaoImpl;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.bean.SymbolInfo;
 
-import static org.junit.Assert.*;
-
 public class YahooShareDaoImplTest {
 
     @Test
