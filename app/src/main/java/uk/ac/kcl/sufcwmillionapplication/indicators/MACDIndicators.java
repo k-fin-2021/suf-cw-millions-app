@@ -11,12 +11,12 @@ public class MACDIndicators extends TechnicalIndicators {
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
         EMAIndicators ema26 = new EMAIndicators(26);
+        List<CalculateResult> res26 = ema26.calculate(dailyQuoteList);
         EMAIndicators ema12 = new EMAIndicators(12);
         List<CalculateResult> res12 = ema12.calculate(dailyQuoteList);
-        List<CalculateResult> res26 = ema26.calculate(dailyQuoteList);
         List<CalculateResult> results = new ArrayList<>();
-        CalculateResult cal = new CalculateResult();
         for(int i = 0; i < res12.size(); i++){
+            CalculateResult cal = new CalculateResult();
             double value1 = res12.get(i).data;
             double value2 = res26.get(i).data;
             cal.date = res12.get(i).date;
