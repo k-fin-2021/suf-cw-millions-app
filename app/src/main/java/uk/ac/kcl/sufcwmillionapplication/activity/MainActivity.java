@@ -13,6 +13,7 @@ import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.R;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
+import uk.ac.kcl.sufcwmillionapplication.utils.SPUtils;
 import uk.ac.kcl.sufcwmillionapplication.view.MainRecAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     void initData() {
         histories = new ArrayList<>();
-        for (int i=0;i<5;i++){
-            SearchBean searchBean = new SearchBean();
-            searchBean.setName("History "+i);
-            histories.add(searchBean);
-        }
+        histories = SPUtils.getObject(this,"history");
+//        for (int i=0;i<5;i++){
+//            SearchBean searchBean = new SearchBean();
+//            searchBean.setName("History "+i);
+//            histories.add(searchBean);
+//        }
     }
 }

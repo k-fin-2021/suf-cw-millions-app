@@ -15,7 +15,7 @@ public class SMAIndicators extends TechnicalIndicators {
         List<CalculateResult> results = new ArrayList<>();
         if (dailyQuoteList.size()<dataFrame){
             for (DailyQuote dailyQuote:dailyQuoteList){
-                result+=dailyQuote.high;
+                result+=dailyQuote.close;
             }
 
             CalculateResult calculateResult = new CalculateResult();
@@ -29,10 +29,11 @@ public class SMAIndicators extends TechnicalIndicators {
                 CalculateResult calculateResult = new CalculateResult();
                 double tmpResult = 0;
                 for (int index=curPos;index<curPos+dataFrame;index++){
-                    tmpResult+=dailyQuoteList.get(index).high;
+                    tmpResult+=dailyQuoteList.get(index).close;
                 }
 
                 calculateResult.data = tmpResult/dataFrame;
+                calculateResult.date = dailyQuoteList.get(curPos+dataFrame-1).date;
                 results.add(calculateResult);
                 curPos+=dataFrame;
             }

@@ -13,7 +13,8 @@
         android:orientation="vertical"
         android:id="@+id/analysis_board"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
         >
         <TextView
             android:text="^HSI"
@@ -41,7 +42,46 @@
     <com.github.mikephil.charting.charts.LineChart
         android:layout_gravity="center_horizontal"
         android:id="@+id/analysis_chart"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:columnCount="2"
+        android:rowCount="2">
+
+        <CheckBox
+            android:id="@+id/SMA_CHK"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:checked="false"
+            android:layout_gravity="center"
+            android:text="SMA" />
+
+        <CheckBox
+            android:id="@+id/MACD_CHK"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="center"
+
+            android:text="MACD" />
+
+        <CheckBox
+            android:id="@+id/EMA_CHK"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="center"
+            android:text="EMA" />
+
+        <CheckBox
+            android:id="@+id/MACDAVG_CHK"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="center"
+            android:text="MACDAVG" />
+    </GridLayout>
 
 </LinearLayout>
