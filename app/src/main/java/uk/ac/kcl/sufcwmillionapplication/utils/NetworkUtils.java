@@ -1,36 +1,24 @@
 package uk.ac.kcl.sufcwmillionapplication.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import android.util.Log;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NetworkUtils {
 
+    private static OkHttpClient client = new OkHttpClient();
+
     public static String fetchUrl(String url) {
-        String urlContent = "";
-        StringBuilder myStrBuff = new StringBuilder();
+        Request request = new Request.Builder().url(url).get().build();
+        String content = "";
         try {
-            URL myUrl = new URL(url);
-            HttpURLConnection myConn = (HttpURLConnection) myUrl.openConnection();
-            myConn.setRequestProperty("User-Agent", "");
-            myConn.setRequestMethod("GET");
-            myConn.setDoInput(true);
-            myConn.connect();
-
-            InputStream myInStrm = myConn.getInputStream();
-            BufferedReader myBuffRdr = new BufferedReader(new InputStreamReader(myInStrm));
-
-            while ((urlContent = myBuffRdr.readLine()) != null) {
-                myStrBuff.append(urlContent + '\n');
-            }
-
-        } catch (IOException e) {
-            return null;
+            Response response =  client.newCall(request).execute();
+            content = response.body().string();
+        }catch (Exception ex){
+            Log.e("NetworkUtils","Catch network error",ex);
         }
-
-        return myStrBuff.toString();
+        return content;
     }
 }
