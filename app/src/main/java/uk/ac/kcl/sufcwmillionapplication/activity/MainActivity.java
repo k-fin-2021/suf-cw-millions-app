@@ -1,10 +1,13 @@
 package uk.ac.kcl.sufcwmillionapplication.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,11 +46,14 @@ public class MainActivity extends AppCompatActivity {
 
     void initData() {
         histories = new ArrayList<>();
-        histories = SPUtils.getObject(this,"history");
-//        for (int i=0;i<5;i++){
-//            SearchBean searchBean = new SearchBean();
-//            searchBean.setName("History "+i);
-//            histories.add(searchBean);
-//        }
+        histories = SPUtils.getHistories(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.d(TAG,"onActivityResult");
+        histories = SPUtils.getHistories(this);
+        adapter.notifyDataSetChanged();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

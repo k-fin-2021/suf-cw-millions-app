@@ -8,6 +8,12 @@ public class SearchBean {
     public Date startDate;
     public Date endDate;
 
+    public SearchBean(String name, Date startDate, Date endDate) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
 
     public String getName() {
         return name;

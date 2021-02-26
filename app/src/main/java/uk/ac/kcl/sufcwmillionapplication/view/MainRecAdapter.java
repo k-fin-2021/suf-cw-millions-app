@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,7 @@ import uk.ac.kcl.sufcwmillionapplication.R;
 import uk.ac.kcl.sufcwmillionapplication.activity.AnalysisActivity;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
 import uk.ac.kcl.sufcwmillionapplication.bean.SimpleDate;
+import uk.ac.kcl.sufcwmillionapplication.utils.SPUtils;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -49,10 +52,12 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     static class HistoryViewHolder extends RecyclerView.ViewHolder {
         TextView historyName;
+        TextView tvDate;
 
         public HistoryViewHolder(View view) {
             super(view);
             historyName = view.findViewById(R.id.history_name);
+            tvDate = view.findViewById(R.id.date);
         }
 
     }
@@ -137,8 +142,28 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View view) {
                     Toast.makeText(mContext,"start search start name "+viewHolder.searchView.getText().toString()
                             +"  start date "+startDate.get(Calendar.DAY_OF_MONTH)+ " end date" + endDate.get(Calendar.DAY_OF_MONTH),Toast.LENGTH_SHORT).show();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                    String name = viewHolder.searchView.getText().toString();
+                    Date startDate = null;
+                    Date endDate = null;
+
+                    try {
+                        startDate = sdf.parse(viewHolder.tvStartDate.getText().toString());
+                        endDate = sdf.parse(viewHolder.tvEndDate.getText().toString());
+
+                    } catch (ParseException e) {
+                        try {
+                            startDate = sdf.parse("1900-01-01");
+                            endDate = sdf.parse("1900-01-01");
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
+                    }
+                    SearchBean tmpHistory = new SearchBean(name,startDate,endDate);
+                    SPUtils.saveHistory(mContext,mHistories,tmpHistory);
+
                     Intent intent = new Intent(mContext, AnalysisActivity.class);
-                    mContext.startActivity(intent);
+                    ((AppCompatActivity)mContext).startActivityForResult(intent,1);
                 }
             });
             Log.d(getClass().getCanonicalName(),"MAIN ITEM");
@@ -151,8 +176,25 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (searchBean != null) {
                     Log.d(getClass().getCanonicalName(),searchBean.toString());
                     HistoryViewHolder viewHolder = (HistoryViewHolder) holder;
+                    viewHolder.historyName.setText(mHistories.get(position-2).name);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
+                    String startDate = sdf.format(mHistories.get(position-2).startDate);
+                    String endDate = sdf.format(mHistories.get(position-2).endDate);
+                    viewHolder.tvDate.setText(startDate+" - "+
+                           endDate);
                 }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SearchBean searchBean = mHistories.get(position - 2);
+                        Intent intent = new Intent(mContext, AnalysisActivity.class);
+                        ((AppCompatActivity)mContext).startActivityForResult(intent,1);
+                    }
+                });
             }
+
+
 
         }
     }
