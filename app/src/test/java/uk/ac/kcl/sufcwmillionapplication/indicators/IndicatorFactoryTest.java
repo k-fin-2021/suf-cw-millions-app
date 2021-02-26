@@ -13,7 +13,7 @@ public class IndicatorFactoryTest {
 
 
         TechnicalIndicators reGetEma = IndicatorFactory.get(IndicatorNames.EMA_9);
-        Assert.assertNotNull(ema9);
+        Assert.assertNotNull(reGetEma);
 
         TechnicalIndicators macd = IndicatorFactory.get(IndicatorNames.MACD_12_26);
         Assert.assertNotNull(macd);
