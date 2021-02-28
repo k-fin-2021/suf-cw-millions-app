@@ -28,22 +28,23 @@ public class IndicatorFactory {
             return indicators;
         }
         if(IndicatorNames.EMA_9.equals(indicatorName)){
-            //TODO: Add initial logic here
-            //E.g.
-            // indicators = new EMAIndicators();
-            // beanMap.put(indicatorName,indicators);
+            indicators = new EMAIndicators(9);
+            beanMap.put(IndicatorNames.EMA_9, indicators);
         }else if (IndicatorNames.EMA_12.equals(indicatorName)){
-            //TODO: Add initial logic here
+            indicators = new EMAIndicators(12);
+            beanMap.put(IndicatorNames.EMA_12, indicators);
         }else if(IndicatorNames.EMA_26.equals(indicatorName)){
-            //TODO: Add initial logic here
+            indicators = new EMAIndicators(26);
+            beanMap.put(IndicatorNames.EMA_26, indicators);
         }else if(IndicatorNames.MACD_12_26.equals(indicatorName)){
-            //TODO: Add initial logic here
             indicators = new MACDIndicators();
-            beanMap.put(indicatorName, indicators);
+            beanMap.put(IndicatorNames.MACD_12_26, indicators);
         }else if(IndicatorNames.SMA_26.equals(indicatorName)){
-            //TODO: Add initial logic here
+            indicators = new SMAIndicators();
+            beanMap.put(IndicatorNames.SMA_26, indicators);
         }else if (IndicatorNames.MACD_AVG.equals(indicatorName)){
-            //TODO: Add initial logic here
+            indicators = new MACDAVGIndicators();
+            beanMap.put(IndicatorNames.MACD_AVG, indicators);
         }else {
             throw new IllegalArgumentException("Indicator Strategy Not Exists");
         }
