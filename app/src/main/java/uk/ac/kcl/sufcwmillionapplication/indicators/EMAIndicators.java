@@ -2,6 +2,7 @@ package uk.ac.kcl.sufcwmillionapplication.indicators;
 
 import androidx.annotation.NonNull;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,24 +21,33 @@ public class EMAIndicators extends TechnicalIndicators {
 
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
+        //if the length of dailyQuotelist bigger than term, then get the data of recent term of dailyQuoteList
+        List<DailyQuote> dq = new ArrayList<>();
+        if(dailyQuoteList.size()>term){
+            for(int j = term;j>0;j++){
+                dq.add(dailyQuoteList.get(dailyQuoteList.size()-j-1));
+            }
+        }else{
+            dq = dailyQuoteList;
+        }
         //start EMA calculate
         //the result set
         List<CalculateResult> result = new ArrayList<>();
         //The first EMA equals the close price of the first day
         CalculateResult cal = new CalculateResult();
-        String Date = super.extractLastDate(dailyQuoteList,dailyQuoteList.size()).get(0);
+        String Date = super.extractLastDate(dq,dq.size()).get(0);
         cal.date = Date;
-        Double LastEma = super.extractLastClosingPrice(dailyQuoteList,dailyQuoteList.size()).get(0);
+        Double LastEma = super.extractLastClosingPrice(dq,dq.size()).get(0);
         cal.data = LastEma;
         result.add(cal);
 
         //Calcute EMA
         Double[] EMAIndex = GetEMAIndex(term);
-        for(int i = 1;i<dailyQuoteList.size();i++){
-            String date = super.extractAllDate(dailyQuoteList).get(i);
+        for(int i = 1;i<dq.size();i++){
+            String date = super.extractAllDate(dq).get(i);
             CalculateResult calculate = new CalculateResult();
             calculate.date = date;
-            Double ema = EMAIndex[0] * super.extractAllClosingPrice(dailyQuoteList).get(i) + EMAIndex[1] * LastEma;
+            Double ema = EMAIndex[0] * super.extractAllClosingPrice(dq).get(i) + EMAIndex[1] * LastEma;
             calculate.data = ema;
             result.add(calculate);
             LastEma = ema;
