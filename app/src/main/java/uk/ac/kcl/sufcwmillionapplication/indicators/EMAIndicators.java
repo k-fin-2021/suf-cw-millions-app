@@ -8,9 +8,6 @@ import java.util.List;
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 
-/**
- * EMA (C1+C2+C3+....+CN)/N
- */
 public class EMAIndicators extends TechnicalIndicators {
 
     static public int term = 0;
@@ -20,24 +17,33 @@ public class EMAIndicators extends TechnicalIndicators {
 
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
+        //if the length of dailyQuoteList bigger than term, we get the most recent term data of dailyQuoteList
+        List<DailyQuote> dq = new ArrayList<DailyQuote>();
+        if(dailyQuoteList.size()>term){
+            for(int t=term;t>0;t--){
+                dq.add(dailyQuoteList.get(dailyQuoteList.size()-t));
+            }
+        }else{
+            dq = dailyQuoteList;
+        }
         //start EMA calculate
         //the result set
         List<CalculateResult> result = new ArrayList<>();
         //The first EMA equals the close price of the first day
         CalculateResult cal = new CalculateResult();
-        String Date = super.extractLastDate(dailyQuoteList,dailyQuoteList.size()).get(0);
+        String Date = super.extractLastDate(dq,dq.size()).get(0);
         cal.date = Date;
-        Double LastEma = super.extractLastClosingPrice(dailyQuoteList,dailyQuoteList.size()).get(0);
+        Double LastEma = super.extractLastClosingPrice(dq,dq.size()).get(0);
         cal.data = LastEma;
         result.add(cal);
 
         //Calcute EMA
         Double[] EMAIndex = GetEMAIndex(term);
-        for(int i = 1;i<dailyQuoteList.size();i++){
-            String date = super.extractAllDate(dailyQuoteList).get(i);
+        for(int i = 1;i<dq.size();i++){
+            String date = super.extractAllDate(dq).get(i);
             CalculateResult calculate = new CalculateResult();
             calculate.date = date;
-            Double ema = EMAIndex[0] * super.extractAllClosingPrice(dailyQuoteList).get(i) + EMAIndex[1] * LastEma;
+            Double ema = EMAIndex[0] * super.extractAllClosingPrice(dq).get(i) + EMAIndex[1] * LastEma;
             calculate.data = ema;
             result.add(calculate);
             LastEma = ema;
