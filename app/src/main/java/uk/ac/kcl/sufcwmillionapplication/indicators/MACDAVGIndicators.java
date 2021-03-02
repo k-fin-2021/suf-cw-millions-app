@@ -14,33 +14,30 @@ public class MACDAVGIndicators extends TechnicalIndicators {
         List<CalculateResult> result = new ArrayList<>();
 
         //calculate MACD
-        EMAIndicators ema26 = new EMAIndicators(26);
+        EMAIndicators ema26 = (EMAIndicators) IndicatorFactory.get(IndicatorNames.EMA_26);
         List<CalculateResult> res26 = ema26.calculate(dailyQuoteList);
-        EMAIndicators ema12 = new EMAIndicators(12);
+        EMAIndicators ema12 = (EMAIndicators) IndicatorFactory.get(IndicatorNames.EMA_12);
         List<CalculateResult> res12 = ema12.calculate(dailyQuoteList);
         //The first MACDAVG_EMA, equals the MACD of the first day
-        double LastEma=res12.get(0).data - res26.get(0).data;
+        double lastEma=res12.get(0).data - res26.get(0).data;
         for(int i = 0; i < res12.size(); i++){
-            CalculateResult cal_MACDAVG = new CalculateResult();
+            CalculateResult calMACDAVG = new CalculateResult();
             double value1 = res12.get(i).data;
             double value2 = res26.get(i).data;
-            cal_MACDAVG.date = res12.get(i).date;
-            double MACD_result= value1 - value2;
-            System.out.println("macd:"+MACD_result);
+            calMACDAVG.date = res12.get(i).date;
+            double MACDResult= value1 - value2;
+            System.out.println("macd:"+MACDResult);
             // caluculate MACDAVG_EMA, term=9
-            Double[] EMAIndex = GetEMAIndex(9);
-            System.out.println("lastema:"+LastEma);
-            Double MACDAVG_EMA = EMAIndex[0] * MACD_result + EMAIndex[1] * LastEma;
+            Double[] EMAIndex = getEMAIndex(9);
+            System.out.println("lastema:"+lastEma);
+            Double MACDAVG_EMA = EMAIndex[0] * MACDResult + EMAIndex[1] * lastEma;
             // insert calculated data
-            cal_MACDAVG.data = MACDAVG_EMA;
-            result.add(cal_MACDAVG);
+            calMACDAVG.data = MACDAVG_EMA;
+            result.add(calMACDAVG);
             // change the lastema
-            LastEma = MACDAVG_EMA;
+            lastEma = MACDAVG_EMA;
         }
         return result;
     }
 
-    private  static Double[] GetEMAIndex(int term){
-        return new Double[]{2D / (term + 1), (term - 1) * 1.0D / (term + 1)};
-    }
 }
