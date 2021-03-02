@@ -122,4 +122,13 @@ public abstract class TechnicalIndicators {
         return list;
     }
 
+    /**
+     * get EMAIndex
+     * @param term
+     * @return
+     */
+    protected  static Double[] getEMAIndex(int term){
+        return new Double[]{2D / (term + 1), (term - 1) * 1.0D / (term + 1)};
+    }
+
 }
