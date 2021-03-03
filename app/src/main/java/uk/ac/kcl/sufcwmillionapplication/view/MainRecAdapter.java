@@ -184,7 +184,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Log.d(getClass().getCanonicalName(),searchBean.toString());
                     HistoryViewHolder viewHolder = (HistoryViewHolder) holder;
                     viewHolder.historyName.setText(mHistories.get(position-2).name);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                     String startDate = sdf.format(mHistories.get(position-2).startDate);
                     String endDate = sdf.format(mHistories.get(position-2).endDate);
                     viewHolder.tvDate.setText(startDate + " - " + endDate);
