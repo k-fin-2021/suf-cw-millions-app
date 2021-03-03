@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="indicator_checkbox"  parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/kcl_red_secondary</item>
+        <item name="colorControlActivated">@color/kcl_red_light</item>
+    </style>
+</resources>

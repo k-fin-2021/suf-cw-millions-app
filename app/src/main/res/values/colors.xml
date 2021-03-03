@@ -13,6 +13,7 @@
     <color name="kcl_grey">#525252</color>
     <color name="kcl_grey_secondary">#525252</color>
     <color name="kcl_grey_light">#BDBDBD</color>
+    <color name="kcl_grey_bar">#EDF1F2</color>
     <color name="kcl_grey_error_hints">#808080</color>
 
     <!-- Blue in header -->
