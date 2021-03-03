@@ -1,6 +1,6 @@
 package uk.ac.kcl.sufcwmillionapplication.view;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,18 +26,23 @@ import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.R;
 import uk.ac.kcl.sufcwmillionapplication.activity.AnalysisActivity;
+import uk.ac.kcl.sufcwmillionapplication.api.ShareDao;
+import uk.ac.kcl.sufcwmillionapplication.api.impl.YahooShareDaoImpl;
+import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
-import uk.ac.kcl.sufcwmillionapplication.bean.SimpleDate;
+import uk.ac.kcl.sufcwmillionapplication.bean.SymbolInfo;
 import uk.ac.kcl.sufcwmillionapplication.utils.SPUtils;
-
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final String TAG = "MainRecAdapter";
 
     private List<SearchBean> mHistories;
     private Context mContext;
     private static final int MAIN_ITEM = 0;
     private static final int BOARD_ITEM = 1;
     private static final int SUB_ITEM = 2;
+
+    private static ShareDao shareDao = new YahooShareDaoImpl();
 
     static Calendar startDate;
     static Calendar endDate;
@@ -142,7 +150,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View view) {
                     Toast.makeText(mContext,"start search start name "+viewHolder.searchView.getText().toString()
                             +"  start date "+startDate.get(Calendar.DAY_OF_MONTH)+ " end date" + endDate.get(Calendar.DAY_OF_MONTH),Toast.LENGTH_SHORT).show();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String name = viewHolder.searchView.getText().toString();
                     Date startDate = null;
                     Date endDate = null;
@@ -161,9 +169,8 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     SearchBean tmpHistory = new SearchBean(name,startDate,endDate);
                     SPUtils.saveHistory(mContext,mHistories,tmpHistory);
-
-                    Intent intent = new Intent(mContext, AnalysisActivity.class);
-                    ((AppCompatActivity)mContext).startActivityForResult(intent,1);
+                    Thread searchThread = new Thread(new SearchTask(tmpHistory, showProgress()));
+                    searchThread.start();
                 }
             });
             Log.d(getClass().getCanonicalName(),"MAIN ITEM");
@@ -180,16 +187,15 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd");
                     String startDate = sdf.format(mHistories.get(position-2).startDate);
                     String endDate = sdf.format(mHistories.get(position-2).endDate);
-                    viewHolder.tvDate.setText(startDate+" - "+
-                           endDate);
+                    viewHolder.tvDate.setText(startDate + " - " + endDate);
                 }
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         SearchBean searchBean = mHistories.get(position - 2);
-                        Intent intent = new Intent(mContext, AnalysisActivity.class);
-                        ((AppCompatActivity)mContext).startActivityForResult(intent,1);
+                        Thread searchThread = new Thread(new SearchTask(searchBean, showProgress()));
+                        searchThread.start();
                     }
                 });
             }
@@ -237,6 +243,43 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         datePickerDialog.setCancelColor(Color.WHITE);
         datePickerDialog.setOkColor(Color.WHITE);
         datePickerDialog.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Datepickerdialog");
+    }
+
+    private ProgressDialog showProgress(){
+        ProgressDialog progressDialog= new ProgressDialog(mContext);
+        progressDialog.setTitle("Fetching data");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        return progressDialog;
+    }
+
+    private class SearchTask implements Runnable{
+
+        private SearchBean tmpHistory;
+        private ProgressDialog progressDialog;
+
+        public SearchTask(SearchBean tmpHistory,ProgressDialog progressDialog) {
+            this.tmpHistory = tmpHistory;
+            this.progressDialog = progressDialog;
+        }
+
+        @Override
+        public void run() {
+            List<DailyQuote> quotes = shareDao.getHistoryQuotes(tmpHistory);
+            SymbolInfo symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
+            if(quotes == null || symbolInfo == null){
+                //TODO: Data not found...
+            }
+            SPUtils.saveHistory(mContext,mHistories,tmpHistory);
+            Intent intent = new Intent(mContext, AnalysisActivity.class);
+            intent.putExtra("symbolInfo",symbolInfo);
+            // FIXME: Here may has bad performance...
+            intent.putExtra("quotes",(Serializable) quotes);
+            progressDialog.dismiss();
+            ((AppCompatActivity)mContext).startActivityForResult(intent,1);
+        }
     }
 
 }

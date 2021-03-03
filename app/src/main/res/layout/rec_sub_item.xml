@@ -10,13 +10,15 @@
 
    <LinearLayout
        android:orientation="vertical"
-       android:layout_margin="10dp"
+       android:paddingHorizontal="15dp"
+       android:paddingVertical="20dp"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
        <TextView
            android:id="@+id/history_name"
            android:text="name"
-           android:textSize="30sp"
+           android:textSize="20sp"
+           android:textColor="@color/kcl_grey"
            android:layout_weight="1"
            android:gravity="center_vertical"
            android:layout_width="match_parent"
@@ -24,9 +26,10 @@
        <TextView
            android:id="@+id/date"
            android:text="date - date"
-           android:textSize="20sp"
+           android:textSize="14sp"
+           android:textColor="@color/kcl_grey_light"
            android:layout_weight="2"
-           android:gravity="center"
+           android:gravity="center_vertical"
            android:layout_width="match_parent"
            android:layout_height="match_parent"></TextView>
    </LinearLayout>

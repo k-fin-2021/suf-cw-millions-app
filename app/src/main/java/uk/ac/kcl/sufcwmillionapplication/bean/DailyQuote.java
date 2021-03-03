@@ -1,10 +1,11 @@
 package uk.ac.kcl.sufcwmillionapplication.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DailyQuote {
+public class DailyQuote implements Serializable {
     static ArrayList<DailyQuote> DailyQuote_allInstances = new ArrayList<DailyQuote>();
 
     DailyQuote() {
