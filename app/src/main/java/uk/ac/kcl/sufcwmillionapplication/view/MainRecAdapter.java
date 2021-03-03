@@ -20,6 +20,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -267,16 +268,42 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void run() {
-            List<DailyQuote> quotes = shareDao.getHistoryQuotes(tmpHistory);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String beginDate = sdf.format(tmpHistory.getStartDate());
+            long timeStamp = tmpHistory.getStartDate().getTime();
+            timeStamp = timeStamp - (1000L * 3600 * 24 * 40);
+            tmpHistory.getStartDate().setTime(timeStamp);
+            List<DailyQuote> quotesCal = shareDao.getHistoryQuotes(tmpHistory);
             SymbolInfo symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
-            if(quotes == null || symbolInfo == null){
+            List<DailyQuote> quotesDisplay = new ArrayList<>();
+            int index = 0;
+            int size = quotesCal.size();
+            while (index < size){
+                if(quotesCal.get(index).date.equals(beginDate)){
+                    break;
+                }
+                index ++;
+            }
+            while (index < size){
+                quotesDisplay.add(quotesCal.get(index));
+                index ++;
+            }
+            Log.d(TAG,"Result size --> " + quotesCal.size() + ", quotesDisplay --> " + quotesDisplay.size());
+            if(quotesCal == null || symbolInfo == null){
                 //TODO: Data not found...
+            }
+            try{
+                tmpHistory.setStartDate(sdf.parse(beginDate));
+            }catch (Exception ex){
+
             }
             SPUtils.saveHistory(mContext,mHistories,tmpHistory);
             Intent intent = new Intent(mContext, AnalysisActivity.class);
             intent.putExtra("symbolInfo",symbolInfo);
             // FIXME: Here may has bad performance...
-            intent.putExtra("quotes",(Serializable) quotes);
+            intent.putExtra("quotesCal",(Serializable) quotesCal);
+            intent.putExtra("quotesDisplay",(Serializable) quotesDisplay);
+            intent.putExtra("startDisplayDate", beginDate);
             progressDialog.dismiss();
             ((AppCompatActivity)mContext).startActivityForResult(intent,1);
         }

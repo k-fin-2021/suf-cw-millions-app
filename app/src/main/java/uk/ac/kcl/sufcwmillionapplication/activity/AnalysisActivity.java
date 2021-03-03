@@ -47,7 +47,9 @@ public class AnalysisActivity extends AppCompatActivity {
     private CombinedChart chart;
 
     private SymbolInfo symbolInfo;
-    private List<DailyQuote> quotes;
+    private List<DailyQuote> quotesDisplay;
+    private List<DailyQuote> quotesCal;
+    private String startDisplayDate;
 
     private CandleData candleData;
 
@@ -78,7 +80,10 @@ public class AnalysisActivity extends AppCompatActivity {
     void init() {
         Intent intent = getIntent();
         symbolInfo = (SymbolInfo) intent.getSerializableExtra("symbolInfo");
-        quotes = (List<DailyQuote>) intent.getSerializableExtra("quotes");
+        quotesDisplay = (List<DailyQuote>) intent.getSerializableExtra("quotesDisplay");
+        quotesCal = (List<DailyQuote>) intent.getSerializableExtra("quotesCal");
+        startDisplayDate = intent.getStringExtra("startDisplayDate");
+        Log.d(TAG, "startDisplayDate --> "+startDisplayDate);
         TextView tvSymbolName = findViewById(R.id.analysis_board_name);
         tvSymbolName.setText(symbolInfo.getSymbol());
         TextView tvOrgName = findViewById(R.id.analysis_board_content);
@@ -88,7 +93,7 @@ public class AnalysisActivity extends AppCompatActivity {
         this.initListeners();
     }
 
-    void initListeners(){
+    private void initListeners(){
         CheckBox smaChk = findViewById(R.id.SMA_CHK);
         smaChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -146,7 +151,6 @@ public class AnalysisActivity extends AppCompatActivity {
         if(!dataSets.isEmpty()){
             data.setData(new LineData(dataSets));
         }
-        Log.i(TAG,"showEMA-->" + showEMA + " showMACD-->" + showMACD + " showMACDAVG-->"+showMACDAVG + " showSMA-->" + showSMA);
         chart.setData(data);
     }
 
@@ -174,9 +178,9 @@ public class AnalysisActivity extends AppCompatActivity {
         chart.getXAxis().setYOffset(-10);
 
         xDate = new ArrayList<>();
-        if(!quotes.isEmpty()){
-            for (int i = 0; i < quotes.size() ; i ++ ){
-                xDate.add(quotes.get(i).date);
+        if(!quotesDisplay.isEmpty()){
+            for (int i = 0; i < quotesDisplay.size() ; i ++ ){
+                xDate.add(quotesDisplay.get(i).date);
             }
         }
         chart.getXAxis().setValueFormatter(new ValueFormatter(){
@@ -208,14 +212,14 @@ public class AnalysisActivity extends AppCompatActivity {
     }
 
     private void prepareCandleData(){
-        if(quotes == null){
+        if(quotesDisplay == null){
             //TODO: Jump to error page
             return;
         }
         ArrayList<CandleEntry> values = new ArrayList<>();
-        int size = quotes.size();
+        int size = quotesDisplay.size();
         for (int i = 0; i < size ; i ++){
-            DailyQuote quote = quotes.get(i);
+            DailyQuote quote = quotesDisplay.get(i);
             values.add(new CandleEntry(i, (float)quote.high, (float)quote.low,
                     (float)quote.open, (float)quote.close));
         }
@@ -236,29 +240,33 @@ public class AnalysisActivity extends AppCompatActivity {
     }
 
     private ILineDataSet getEMAList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.EMA_9).calculate(this.quotes);
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.EMA_9).calculate(this.quotesCal);
         return extractData(res,"EMA", Color.rgb(15,125,254));
     }
 
     private ILineDataSet getSMAList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.SMA_20).calculate(this.quotes);
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.SMA_20).calculate(this.quotesCal);
         return extractData(res, "SMA",Color.rgb(251,83,7));
     }
 
     private ILineDataSet getMACDList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.MACD_12_26).calculate(this.quotes);
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.MACD_12_26).calculate(this.quotesCal);
         return extractData(res,"MACD",Color.rgb(39,187,209));
     }
 
     private ILineDataSet getMACDAVGList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.MACD_AVG).calculate(this.quotes);
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.MACD_AVG).calculate(this.quotesCal);
         return extractData(res,"MACDAVG",Color.rgb(106,62,181));
     }
 
     private ILineDataSet extractData(List<CalculateResult> res, String label, int color){
         ArrayList<Entry> values = new ArrayList<>();
-        int index = this.quotes.size() - res.size();
-        for (int i = 0; i < res.size(); i ++ ){
+        int index = this.quotesDisplay.size() - res.size();
+        for (int i = 0; i < res.size(); i ++ ) {
+            if(index < 0){
+                index ++;
+                continue;
+            }
             float val = (float) res.get(i).data;
             values.add(new Entry((index++), val));
         }
