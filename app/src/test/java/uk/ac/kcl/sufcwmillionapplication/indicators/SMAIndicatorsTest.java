@@ -58,7 +58,7 @@ public class SMAIndicatorsTest {
             result.get(i).data = decimal(result.get(i).data);
             System.out.println(result.get(i).data);
         }
-        double[] theoretical_result = new double[]{2.3333};
+        double[] theoretical_result = new double[]{2.75};
         for(int i = 0; i < result.size(); i++){
             Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
         }
