@@ -42,6 +42,9 @@ public class IndicatorFactory {
         }else if(IndicatorNames.SMA_26.equals(indicatorName)){
             indicators = new SMAIndicators();
             beanMap.put(IndicatorNames.SMA_26, indicators);
+        }else if(IndicatorNames.SMA_20.equals(indicatorName)){
+            indicators = new SMAIndicators();
+            beanMap.put(IndicatorNames.SMA_20, indicators);
         }else if (IndicatorNames.MACD_AVG.equals(indicatorName)){
             indicators = new MACDAVGIndicators();
             beanMap.put(IndicatorNames.MACD_AVG, indicators);

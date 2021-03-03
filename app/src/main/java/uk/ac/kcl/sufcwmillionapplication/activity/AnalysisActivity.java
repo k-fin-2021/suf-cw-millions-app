@@ -28,12 +28,9 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -244,7 +241,7 @@ public class AnalysisActivity extends AppCompatActivity {
     }
 
     private ILineDataSet getSMAList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.SMA_26).calculate(this.quotes);
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.SMA_20).calculate(this.quotes);
         return extractData(res, "SMA",Color.rgb(251,83,7));
     }
 
