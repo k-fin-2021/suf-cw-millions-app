@@ -1,6 +1,8 @@
 package uk.ac.kcl.sufcwmillionapplication.bean;
 
-public class SymbolInfo {
+import java.io.Serializable;
+
+public class SymbolInfo implements Serializable {
 
     private String symbol;
     private String shortName;

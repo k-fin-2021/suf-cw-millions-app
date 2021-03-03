@@ -1,21 +1,17 @@
 package uk.ac.kcl.sufcwmillionapplication.activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.R;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
