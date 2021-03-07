@@ -32,6 +32,7 @@ import uk.ac.kcl.sufcwmillionapplication.api.impl.YahooShareDaoImpl;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
 import uk.ac.kcl.sufcwmillionapplication.bean.SymbolInfo;
+import uk.ac.kcl.sufcwmillionapplication.utils.CacheUtils;
 import uk.ac.kcl.sufcwmillionapplication.utils.SPUtils;
 public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -273,20 +274,47 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             long timeStamp = tmpHistory.getStartDate().getTime();
             timeStamp = timeStamp - (1000L * 3600 * 24 * 40);
             tmpHistory.getStartDate().setTime(timeStamp);
-            List<DailyQuote> quotesCal = shareDao.getHistoryQuotes(tmpHistory);
-            SymbolInfo symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
+            List<DailyQuote> quotesCal;
+            SymbolInfo symbolInfo;
             List<DailyQuote> quotesDisplay = new ArrayList<>();
-            int index = 0;
-            int size = quotesCal.size();
-            while (index < size){
-                if(quotesCal.get(index).date.equals(beginDate)){
-                    break;
-                }
-                index ++;
+
+            if (CacheUtils.isCache(mContext,tmpHistory)){
+                quotesCal = CacheUtils.getCacheDailyQuote(mContext,tmpHistory);
+//                symbolInfo = CacheUtils.getCacheSymbolInfo(mContext,tmpHistory);
+                symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
+                Log.d("cache","get data from cache");
+            }else {
+                quotesCal = shareDao.getHistoryQuotes(tmpHistory);
+                symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
+                CacheUtils.updateCache(mContext,tmpHistory,quotesCal,symbolInfo);
+                Log.d("cache","get data from network");
             }
-            while (index < size){
-                quotesDisplay.add(quotesCal.get(index));
-                index ++;
+//            int index = 0;
+//            int size = quotesCal.size();
+//            while (index < size){
+//                try {
+//                    if(tmpSDF.parse(quotesCal.get(index).date).after(tmpSDF.parse(beginDate))){
+//                        break;
+//                    }
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                index ++;
+//            }
+//            while (index < size){
+//                quotesDisplay.add(quotesCal.get(index));
+//                index ++;
+//            }
+            SimpleDateFormat tmpSDF = new SimpleDateFormat("yyyy-MM-dd");
+            for (DailyQuote dailyQuote:quotesCal){
+                try {
+                    if (tmpSDF.parse(dailyQuote.date).after(tmpSDF.parse(beginDate))||
+                            tmpSDF.parse(dailyQuote.date).equals(tmpSDF.parse(beginDate))){
+                        quotesDisplay.add(dailyQuote);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             Log.d(TAG,"Result size --> " + quotesCal.size() + ", quotesDisplay --> " + quotesDisplay.size());
             if(quotesCal == null || symbolInfo == null){
