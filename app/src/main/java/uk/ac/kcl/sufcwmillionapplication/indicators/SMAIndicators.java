@@ -11,7 +11,7 @@ public class SMAIndicators extends TechnicalIndicators {
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
         double result = 0;
-        int dataFrame = 3;
+        int dataFrame = 26;
         List<CalculateResult> results = new ArrayList<>();
         if (dailyQuoteList.size()<dataFrame){
             for (DailyQuote dailyQuote:dailyQuoteList){
@@ -35,7 +35,7 @@ public class SMAIndicators extends TechnicalIndicators {
                 calculateResult.data = tmpResult/dataFrame;
                 calculateResult.date = dailyQuoteList.get(curPos+dataFrame-1).date;
                 results.add(calculateResult);
-                curPos+=dataFrame;
+                curPos++;
             }
             return results;
         }

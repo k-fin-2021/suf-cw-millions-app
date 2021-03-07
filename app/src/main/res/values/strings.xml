@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SufCwMillionApplication</string>
+    <string name="symbol_name">Symbol Name</string>
+    <string name="initial_symbol_name">0005.HK</string>
+    <string name="analysis_page_title">Analysis</string>
+    <string name="index_start_date">Start Date</string>
+    <string name="index_end_date">end</string>
+    <string name="analysis_ind_macdavg">MACDAVG</string>
+    <string name="analysis_ind_ema">EMA</string>
+    <string name="analysis_ind_macd">MACD</string>
+    <string name="analysis_ind_sma">SMA</string>
 </resources>

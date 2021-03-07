@@ -13,6 +13,7 @@ import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.api.ShareDao;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
+import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
 import uk.ac.kcl.sufcwmillionapplication.bean.SymbolInfo;
 import uk.ac.kcl.sufcwmillionapplication.utils.CommonUtils;
 import uk.ac.kcl.sufcwmillionapplication.utils.NetworkUtils;
@@ -23,7 +24,8 @@ public class YahooShareDaoImpl implements ShareDao {
     private static final String YAHOO_FINANCE_QUOTE = "https://finance.yahoo.com/quote/";
 
     @Override
-    public SymbolInfo getInfoOfSymbol(String symbol) {
+    public SymbolInfo getInfoOfSymbol(SearchBean searchBean) {
+        String symbol = searchBean.getName();
         StringBuffer url = new StringBuffer(YAHOO_FINANCE_QUOTE);
         url.append(symbol);
         String html = NetworkUtils.fetchUrl(url.toString());
@@ -57,8 +59,10 @@ public class YahooShareDaoImpl implements ShareDao {
     }
 
     @Override
-    public List<DailyQuote> getHistoryQuotes(String symbol, Date startDate, Date endDate) {
-
+    public List<DailyQuote> getHistoryQuotes(SearchBean searchBean) {
+        String symbol = searchBean.getName();
+        Date startDate = searchBean.getStartDate();
+        Date endDate = searchBean.getEndDate();
         StringBuffer url = new StringBuffer(YAHOO_FINANCE_API);
         url.append("v8/finance/chart/");
         url.append(symbol);
@@ -111,6 +115,7 @@ public class YahooShareDaoImpl implements ShareDao {
         }catch (Exception ex){
             Log.e("ShareDao","Extract data error", ex);
             Log.d("ShareDao", json);
+            return null;
         }
 
         return quotes;
