@@ -26,12 +26,16 @@ public class YahooShareDaoImpl implements ShareDao {
 
     @Override
     public SymbolInfo getInfoOfSymbol(SearchBean searchBean) {
+        SymbolInfo symbolInfo = new SymbolInfo();
         String symbol = searchBean.getName();
         StringBuffer url = new StringBuffer(YAHOO_FINANCE_QUOTE);
         url.append(symbol);
         String html = NetworkUtils.fetchUrl(url.toString());
-        if(CommonUtils.isEmptyString(html) || !html.contains("QuoteSummaryStore")){
+        if(CommonUtils.isEmptyString(html)){
             return null;
+        }
+        if(!html.contains("QuoteSummaryStore")){
+            return symbolInfo;
         }
         String htmlSplit1[] = html.split("root.App.main =");
         if(htmlSplit1.length < 2){
@@ -40,7 +44,7 @@ public class YahooShareDaoImpl implements ShareDao {
         String jsonString = htmlSplit1[1].split("\\(this\\)")[0];
         jsonString = jsonString.split(";\n")[0];
         Gson gson = new Gson();
-        SymbolInfo symbolInfo = new SymbolInfo();
+
         try{
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
             JsonObject ctx = jsonObject.getAsJsonObject("context");
