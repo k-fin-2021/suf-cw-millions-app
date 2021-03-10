@@ -282,6 +282,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (CacheUtils.isCache(mContext,tmpHistory)){
                     quotesCal = CacheUtils.getCacheDailyQuote(mContext,tmpHistory);
                     if (quotesCal == null || quotesCal.size()==0){
+                        quotesCal = CacheUtils.getCacheDailyQuote(mContext,tmpHistory);
                         symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
                         CacheUtils.updateCache(mContext,tmpHistory,quotesCal,symbolInfo);
                     }
