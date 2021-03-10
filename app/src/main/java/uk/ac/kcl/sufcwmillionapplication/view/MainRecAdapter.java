@@ -1,15 +1,17 @@
 package uk.ac.kcl.sufcwmillionapplication.view;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,12 +29,15 @@ import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.R;
 import uk.ac.kcl.sufcwmillionapplication.activity.AnalysisActivity;
+import uk.ac.kcl.sufcwmillionapplication.activity.DataNotFoundActivity;
+import uk.ac.kcl.sufcwmillionapplication.activity.InternalErrorActivity;
 import uk.ac.kcl.sufcwmillionapplication.api.ShareDao;
 import uk.ac.kcl.sufcwmillionapplication.api.impl.YahooShareDaoImpl;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.bean.SearchBean;
 import uk.ac.kcl.sufcwmillionapplication.bean.SymbolInfo;
 import uk.ac.kcl.sufcwmillionapplication.utils.CacheUtils;
+import uk.ac.kcl.sufcwmillionapplication.utils.CommonUtils;
 import uk.ac.kcl.sufcwmillionapplication.utils.SPUtils;
 public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -74,10 +79,12 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     static class BoardViewHolder extends RecyclerView.ViewHolder {
         TextView name;
+        LinearLayout hints;
 
         public BoardViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.whiteboard);
+            hints = view.findViewById(R.id.no_history_hints);
         }
 
     }
@@ -150,17 +157,63 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.searchBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mContext,"start search start name "+viewHolder.searchView.getText().toString()
-                            +"  start date "+startDate.get(Calendar.DAY_OF_MONTH)+ " end date" + endDate.get(Calendar.DAY_OF_MONTH),Toast.LENGTH_SHORT).show();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String name = viewHolder.searchView.getText().toString();
+
+                    if(CommonUtils.isEmptyString(name)){
+                        showWarning("Please specify the symbol name.");
+                        return;
+                    }
+
                     Date startDate = null;
                     Date endDate = null;
 
                     try {
+                        if(mContext.getString(R.string.index_start_date).equalsIgnoreCase(
+                                viewHolder.tvStartDate.getText().toString())){
+                            showWarning("Please select the start date");
+                            return;
+                        }
+
+                        if(mContext.getString(R.string.index_end_date).equalsIgnoreCase(
+                                viewHolder.tvEndDate.getText().toString())){
+                            showWarning("Please select the end date");
+                            return;
+                        }
+
                         startDate = sdf.parse(viewHolder.tvStartDate.getText().toString());
                         endDate = sdf.parse(viewHolder.tvEndDate.getText().toString());
-
+                        if(startDate.after(endDate)){
+                            showWarning("Start date cannot later than end date");
+                            return;
+                        }
+                        Calendar startDateCal = Calendar.getInstance();
+                        Calendar endDateCal = Calendar.getInstance();
+                        startDateCal.setTime(startDate);
+                        endDateCal.setTime(endDate);
+                        int startYear = startDateCal.get(Calendar.YEAR);
+                        int endYear = endDateCal.get(Calendar.YEAR);
+                        if(startYear != endYear){
+                            if( endYear - startYear > 3 ){
+                                showWarning("The maximum range of date is two years");
+                                return;
+                            }
+                            int timeDistance = 0 ;
+                            int maxInterval = 365 * 2;
+                            for(int i = startYear; i < endYear; i ++ ) {
+                                if( (i % 4 ==0 && i % 100!=0) || i % 400 == 0){
+                                    timeDistance += 366;
+                                    maxInterval ++;
+                                }else{
+                                    timeDistance += 365;
+                                }
+                            }
+                            timeDistance += (endDateCal.get(Calendar.DAY_OF_YEAR) - startDateCal.get(Calendar.DAY_OF_YEAR));
+                            if(timeDistance > maxInterval){
+                                showWarning("The maximum range of date is two years");
+                                return;
+                            }
+                        }
                     } catch (ParseException e) {
                         try {
                             startDate = sdf.parse("1900-01-01");
@@ -177,7 +230,12 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
             Log.d(getClass().getCanonicalName(),"MAIN ITEM");
         }else if (viewType == BOARD_ITEM){
-
+            BoardViewHolder boardViewHolder = (BoardViewHolder) holder;
+            if(mHistories.isEmpty()){
+                boardViewHolder.hints.setVisibility(View.VISIBLE);
+            }else{
+                boardViewHolder.hints.setVisibility(View.GONE);
+            }
         } else {
             Log.d(getClass().getCanonicalName(),"SUB ITEM");
             if (mHistories.size() > 1) {
@@ -201,9 +259,6 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
             }
-
-
-
         }
     }
 
@@ -231,7 +286,9 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        tv.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                        String zeroMonth = ((monthOfYear+1) < 10)?"0":"";
+                        String zeroDay = (dayOfMonth < 10)?"0":"";
+                        tv.setText(year+"-"+ zeroMonth + (monthOfYear+1)+"-" + zeroDay+dayOfMonth);
                         calendar.set(Calendar.YEAR,year);
                         calendar.set(Calendar.MONTH,monthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
@@ -278,7 +335,17 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             SymbolInfo symbolInfo;
             List<DailyQuote> quotesDisplay = new ArrayList<>();
             symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
-
+            if( symbolInfo == null ){
+                progressDialog.dismiss();
+                Intent jumpToError = new Intent(mContext, InternalErrorActivity.class);
+                ((AppCompatActivity) mContext).startActivityForResult(jumpToError, 1);
+                return;
+            }else if(CommonUtils.isEmptyString(symbolInfo.getSymbol())){
+                progressDialog.dismiss();
+                Intent jumpToNotFound = new Intent(mContext, DataNotFoundActivity.class);
+                ((AppCompatActivity)mContext).startActivityForResult(jumpToNotFound,1);
+                return;
+            }
             try{
                 if (CacheUtils.isCache(mContext,tmpHistory)){
                     quotesCal = CacheUtils.getCacheDailyQuote(mContext,tmpHistory);
@@ -325,8 +392,16 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
             Log.d(TAG,"Result size --> " + quotesCal.size() + ", quotesDisplay --> " + quotesDisplay.size());
-            if(quotesCal == null || symbolInfo == null){
-                //TODO: Data not found...
+            if( quotesCal == null ) {
+                progressDialog.dismiss();
+                Intent jumpToError = new Intent(mContext, InternalErrorActivity.class);
+                ((AppCompatActivity) mContext).startActivityForResult(jumpToError, 1);
+                return;
+            }else if( (quotesCal != null && quotesCal.isEmpty())){
+                progressDialog.dismiss();
+                Intent jumpToNotFound = new Intent(mContext, DataNotFoundActivity.class);
+                ((AppCompatActivity)mContext).startActivityForResult(jumpToNotFound,1);
+                return;
             }
             try{
                 tmpHistory.setStartDate(sdf.parse(beginDate));
@@ -343,6 +418,18 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             progressDialog.dismiss();
             ((AppCompatActivity)mContext).startActivityForResult(intent,1);
         }
+    }
+
+    private void showWarning(String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(msg);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //DO Nothing;
+            }
+        });
+        builder.show();
     }
 
 }

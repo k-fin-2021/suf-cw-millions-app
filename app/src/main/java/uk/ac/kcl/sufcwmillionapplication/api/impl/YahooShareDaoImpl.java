@@ -40,6 +40,7 @@ public class YahooShareDaoImpl implements ShareDao {
         String jsonString = htmlSplit1[1].split("\\(this\\)")[0];
         jsonString = jsonString.split(";\n")[0];
         Gson gson = new Gson();
+        SymbolInfo symbolInfo = new SymbolInfo();
         try{
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
             JsonObject ctx = jsonObject.getAsJsonObject("context");
@@ -47,16 +48,14 @@ public class YahooShareDaoImpl implements ShareDao {
             JsonObject stores = dispatcher.getAsJsonObject("stores");
             JsonObject quoteSummaryStore = stores.getAsJsonObject("QuoteSummaryStore");
             JsonObject quoteType = quoteSummaryStore.getAsJsonObject("quoteType");
-            SymbolInfo symbolInfo = new SymbolInfo();
             symbolInfo.setLongName(quoteType.get("longName").getAsString());
             symbolInfo.setShortName(quoteType.get("shortName").getAsString());
             symbolInfo.setSymbol(symbol);
-            return symbolInfo;
         }catch (Exception ex){
             ex.printStackTrace();
             Log.e("ShareDao","JSON Error", ex);
         }
-        return null;
+        return symbolInfo;
     }
 
     @Override
@@ -77,7 +76,7 @@ public class YahooShareDaoImpl implements ShareDao {
         List<DailyQuote> quotes = new ArrayList<>();
         String json = NetworkUtils.fetchUrl(url.toString());
         if(CommonUtils.isEmptyString(json)){
-            return quotes;
+            return null;
         }
 
         Gson gson = new Gson();
