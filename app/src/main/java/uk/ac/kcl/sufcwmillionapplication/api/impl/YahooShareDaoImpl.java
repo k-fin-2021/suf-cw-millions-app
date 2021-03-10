@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class YahooShareDaoImpl implements ShareDao {
         url.append("period1=");
         url.append(startDate.getTime() / 1000);
         url.append("&period2=");
-        url.append(endDate.getTime() / 1000);
+        url.append(endDate.getTime() / 1000 + 3600 * 24 - 1);
         url.append("&interval=1d&events=history");
 
         List<DailyQuote> quotes = new ArrayList<>();
@@ -102,13 +103,13 @@ public class YahooShareDaoImpl implements ShareDao {
             for (int i = 0; i < size ; i ++){
                 Date date = new Date(timestamp.get(i).getAsLong() * 1000);
                 DailyQuote dailyQuote = DailyQuote.createDailyQuote();
-                dailyQuote.adjclose = adjcloseList.get(i).getAsDouble();
-                dailyQuote.close = closeList.get(i).getAsDouble();
-                dailyQuote.open = openList.get(i).getAsDouble();
+                dailyQuote.adjclose =  new BigDecimal(adjcloseList.get(i).getAsString()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                dailyQuote.close = new BigDecimal(closeList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                dailyQuote.open = new BigDecimal(openList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
                 dailyQuote.date = sdf.format(date);
-                dailyQuote.high = highList.get(i).getAsDouble();
-                dailyQuote.low = lowList.get(i).getAsDouble();
-                dailyQuote.volume = volumeList.get(i).getAsDouble();
+                dailyQuote.high = new BigDecimal(highList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                dailyQuote.low = new BigDecimal(lowList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                dailyQuote.volume = new BigDecimal(volumeList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
                 quotes.add(dailyQuote);
             }
 
