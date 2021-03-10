@@ -2,19 +2,13 @@ package uk.ac.kcl.sufcwmillionapplication.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class SearchBean implements Serializable {
-
-    public String name;
-    public Date startDate;
-    public Date endDate;
-
-    public SearchBean(String name, Date startDate, Date endDate) {
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
+public class CacheBean implements Serializable {
+    String name;
+    Date startDate;
+    Date endDate;
+    List<DailyQuote> results;
 
     public String getName() {
         return name;
@@ -40,9 +34,17 @@ public class SearchBean implements Serializable {
         this.endDate = endDate;
     }
 
+    public List<DailyQuote> getResults() {
+        return results;
+    }
+
+    public void setResults(List<DailyQuote> results) {
+        this.results = results;
+    }
+
     @Override
     public String toString() {
-        return "SearchBean{" +
+        return "CacheBean{" +
                 "name='" + name + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

@@ -183,12 +183,14 @@ public class AnalysisActivity extends AppCompatActivity {
                 xDate.add(quotesDisplay.get(i).date);
             }
         }
-        chart.getXAxis().setValueFormatter(new ValueFormatter(){
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                return xDate.get((int) value);
-            }
-        });
+        if (!xDate.isEmpty()){
+            chart.getXAxis().setValueFormatter(new ValueFormatter(){
+                @Override
+                public String getAxisLabel(float value, AxisBase axis) {
+                    return xDate.get((int) value);
+                }
+            });
+        }
 
         this.updateData();
         // enable touch gestures

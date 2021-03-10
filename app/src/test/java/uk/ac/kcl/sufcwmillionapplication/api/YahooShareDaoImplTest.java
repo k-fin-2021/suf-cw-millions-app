@@ -45,6 +45,6 @@ public class YahooShareDaoImplTest {
 
         List<DailyQuote> quotes = yahooShareDao.getHistoryQuotes(searchBean);
         Assert.assertNotNull(quotes);
-        Assert.assertEquals(23, quotes.size());
+        Assert.assertEquals(24, quotes.size());
     }
 }
