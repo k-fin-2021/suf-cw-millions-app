@@ -1,5 +1,7 @@
 package uk.ac.kcl.sufcwmillionapplication.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,6 +35,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import uk.ac.kcl.sufcwmillionapplication.R;
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
@@ -53,6 +56,7 @@ public class AnalysisActivity extends AppCompatActivity {
 
     private CandleData candleData;
 
+    private AtomicInteger currDisplayIndicators = new AtomicInteger(0);
     private boolean showSMA = false;
     private boolean showEMA = false;
     private boolean showMACD = false;
@@ -93,12 +97,33 @@ public class AnalysisActivity extends AppCompatActivity {
         this.initListeners();
     }
 
+    private void showDisplayExceedDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You are not allowed to choose more than 2 indicators");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //DO Nothing;
+            }
+        });
+        builder.show();
+    }
+
     private void initListeners(){
         CheckBox smaChk = findViewById(R.id.SMA_CHK);
         smaChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked && currDisplayIndicators.incrementAndGet() > 2){
+                    compoundButton.setChecked(false);
+                    currDisplayIndicators.decrementAndGet();
+                    showDisplayExceedDialog();
+                    return;
+                }
                 showSMA = isChecked;
+                if(!showSMA){
+                    currDisplayIndicators.decrementAndGet();
+                }
                 updateData();
             }
         });
@@ -107,7 +132,16 @@ public class AnalysisActivity extends AppCompatActivity {
         emaChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked && currDisplayIndicators.incrementAndGet() > 2){
+                    compoundButton.setChecked(false);
+                    currDisplayIndicators.decrementAndGet();
+                    showDisplayExceedDialog();
+                    return;
+                }
                 showEMA = isChecked;
+                if(!showEMA){
+                    currDisplayIndicators.decrementAndGet();
+                }
                 updateData();
             }
         });
@@ -116,7 +150,16 @@ public class AnalysisActivity extends AppCompatActivity {
         macdChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked && currDisplayIndicators.incrementAndGet() > 2){
+                    compoundButton.setChecked(false);
+                    currDisplayIndicators.decrementAndGet();
+                    showDisplayExceedDialog();
+                    return;
+                }
                 showMACD = isChecked;
+                if(!showMACD){
+                    currDisplayIndicators.decrementAndGet();
+                }
                 updateData();
             }
         });
@@ -125,7 +168,16 @@ public class AnalysisActivity extends AppCompatActivity {
         macdAvgChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked && currDisplayIndicators.incrementAndGet() > 2){
+                    compoundButton.setChecked(false);
+                    currDisplayIndicators.decrementAndGet();
+                    showDisplayExceedDialog();
+                    return;
+                }
                 showMACDAVG = isChecked;
+                if(!showMACDAVG){
+                    currDisplayIndicators.decrementAndGet();
+                }
                 updateData();
             }
         });
@@ -175,7 +227,9 @@ public class AnalysisActivity extends AppCompatActivity {
         chart.getXAxis().setDrawAxisLine(false);
         chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chart.getXAxis().setYOffset(-10);
+        chart.getXAxis().setAxisMinimum(-1f);
+        chart.getXAxis().setAxisMaximum(quotesDisplay.size());
+        chart.getXAxis().setGranularity(1f);
 
         xDate = new ArrayList<>();
         if(!quotesDisplay.isEmpty()){
@@ -183,14 +237,15 @@ public class AnalysisActivity extends AppCompatActivity {
                 xDate.add(quotesDisplay.get(i).date);
             }
         }
-        if (!xDate.isEmpty()){
-            chart.getXAxis().setValueFormatter(new ValueFormatter(){
-                @Override
-                public String getAxisLabel(float value, AxisBase axis) {
-                    return xDate.get((int) value);
+        chart.getXAxis().setValueFormatter(new ValueFormatter(){
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if( value == -1 || value == xDate.size()){
+                    return "";
                 }
-            });
-        }
+                return xDate.get(Math.max(0,(int) value ));
+            }
+        });
 
         this.updateData();
         // enable touch gestures
@@ -205,8 +260,8 @@ public class AnalysisActivity extends AppCompatActivity {
 
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(true);
 
         chart.animateX(2500);
@@ -215,7 +270,9 @@ public class AnalysisActivity extends AppCompatActivity {
 
     private void prepareCandleData(){
         if(quotesDisplay == null){
-            //TODO: Jump to error page
+            Intent jumpToError = new Intent(this, InternalErrorActivity.class);
+            this.startActivityForResult(jumpToError, 1);
+            this.finish();
             return;
         }
         ArrayList<CandleEntry> values = new ArrayList<>();
