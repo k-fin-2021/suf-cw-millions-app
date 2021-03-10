@@ -223,8 +223,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                     SearchBean tmpHistory = new SearchBean(name,startDate,endDate);
-                    SPUtils.saveHistory(mContext,mHistories,tmpHistory);
-                    Thread searchThread = new Thread(new SearchTask(tmpHistory, showProgress()));
+                    Thread searchThread = new Thread(new SearchTask(tmpHistory, showProgress(),true));
                     searchThread.start();
                 }
             });
@@ -254,7 +253,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View view) {
                         SearchBean searchBean = mHistories.get(position - 2);
-                        Thread searchThread = new Thread(new SearchTask(searchBean, showProgress()));
+                        Thread searchThread = new Thread(new SearchTask(searchBean, showProgress(),false));
                         searchThread.start();
                     }
                 });
@@ -318,10 +317,12 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private SearchBean tmpHistory;
         private ProgressDialog progressDialog;
+        private boolean saveHistory = false;
 
-        public SearchTask(SearchBean tmpHistory,ProgressDialog progressDialog) {
+        public SearchTask(SearchBean tmpHistory,ProgressDialog progressDialog, boolean saveHistory) {
             this.tmpHistory = tmpHistory;
             this.progressDialog = progressDialog;
+            this.saveHistory = saveHistory;
         }
 
         @Override
@@ -364,22 +365,6 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 CacheUtils.updateCache(mContext,tmpHistory,quotesCal,symbolInfo);
                 Log.d("cache","get data from network");
             };
-//            int index = 0
-//            int size = quotesCal.size();
-//            while (index < size){
-//                try {
-//                    if(tmpSDF.parse(quotesCal.get(index).date).after(tmpSDF.parse(beginDate))){
-//                        break;
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                index ++;
-//            }
-//            while (index < size){
-//                quotesDisplay.add(quotesCal.get(index));
-//                index ++;
-//            }
             SimpleDateFormat tmpSDF = new SimpleDateFormat("yyyy-MM-dd");
             for (DailyQuote dailyQuote:quotesCal){
                 try {
@@ -408,7 +393,9 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }catch (Exception ex){
 
             }
-            SPUtils.saveHistory(mContext,mHistories,tmpHistory);
+            if(saveHistory){
+                SPUtils.saveHistory(mContext,mHistories,tmpHistory);
+            }
             Intent intent = new Intent(mContext, AnalysisActivity.class);
             intent.putExtra("symbolInfo",symbolInfo);
             // FIXME: Here may has bad performance...
