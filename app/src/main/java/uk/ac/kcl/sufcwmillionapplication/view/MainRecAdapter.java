@@ -277,26 +277,23 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             List<DailyQuote> quotesCal;
             SymbolInfo symbolInfo;
             List<DailyQuote> quotesDisplay = new ArrayList<>();
+            symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
 
             try{
                 if (CacheUtils.isCache(mContext,tmpHistory)){
                     quotesCal = CacheUtils.getCacheDailyQuote(mContext,tmpHistory);
                     if (quotesCal == null || quotesCal.size()==0){
                         quotesCal = CacheUtils.getCacheDailyQuote(mContext,tmpHistory);
-                        symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
                         CacheUtils.updateCache(mContext,tmpHistory,quotesCal,symbolInfo);
                     }
-                    symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
                     Log.d("cache","get data from cache");
                 }else {
                     quotesCal = shareDao.getHistoryQuotes(tmpHistory);
-                    symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
                     CacheUtils.updateCache(mContext,tmpHistory,quotesCal,symbolInfo);
                     Log.d("cache","get data from network");
                 }
             }catch (Exception e){
                 quotesCal = shareDao.getHistoryQuotes(tmpHistory);
-                symbolInfo = shareDao.getInfoOfSymbol(tmpHistory);
                 CacheUtils.updateCache(mContext,tmpHistory,quotesCal,symbolInfo);
                 Log.d("cache","get data from network");
             };
