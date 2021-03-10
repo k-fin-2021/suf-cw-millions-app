@@ -237,7 +237,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         } else {
             Log.d(getClass().getCanonicalName(),"SUB ITEM");
-            if (mHistories.size() > 1) {
+            if (mHistories.size() > 0) {
                 SearchBean searchBean = mHistories.get(position - 2);
                 if (searchBean != null) {
                     Log.d(getClass().getCanonicalName(),searchBean.toString());
