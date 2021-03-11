@@ -4,13 +4,13 @@
 
 ## Recommended Local environment
 
-- JDK 1.8
-- Android Studio 4.2
+-  JDK 1.8
+-  Android Studio 4.2
 
 ## Author
 
-- [Shaobin, Ou](https://github.com/ousheobin/)
-- [Ruoxin, Tang](https://github.com/TeresaTang98)
-- [Yiran, Ti](https://github.com/sidan26)
-- [Xiaoran, Zhang](https://github.com/Xiaoran46)
-- [Ye, Zhang](https://github.com/Ap-Zh)
+-  [Shaobin, Ou](https://github.com/ousheobin/)
+-  [Ruoxin, Tang](https://github.com/TeresaTang98)
+-  [Yiran, Ti](https://github.com/sidan26)
+-  [Xiaoran, Zhang](https://github.com/Xiaoran46)
+-  [Ye, Zhang](https://github.com/Ap-Zh)
