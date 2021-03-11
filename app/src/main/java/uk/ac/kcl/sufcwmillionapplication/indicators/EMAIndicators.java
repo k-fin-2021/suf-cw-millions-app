@@ -20,42 +20,35 @@ public class EMAIndicators extends TechnicalIndicators {
         //if the length of dailyQuoteList bigger than term, we get the most recent term data of dailyQuoteList
         List<DailyQuote> dq = new ArrayList<DailyQuote>();
         List<CalculateResult> result = new ArrayList<>();
-        if(dailyQuoteList.size()>term){
-            for(int i = 0;i<dailyQuoteList.size()-term;i++){
+        if(dailyQuoteList.size()>=term){
+            for(int i = 0;i<dailyQuoteList.size()-term+1;i++){
                 for(int j = i;j<i+term;j++){
                     dq.add(dailyQuoteList.get(j));
                 }
                 result.add(EmaCal(dq));
+                dq.clear();
             }
         }else{
-            dq = dailyQuoteList;
             for(int i = 0;i<dailyQuoteList.size();i++){
-                for(int j = 0; j<i ; j++){
-                    dq.add(dailyQuoteList.get(j));
-                }
+                dq.add(dailyQuoteList.get(i));
                 result.add(EmaCal(dq));
             }
         }
-
-
-
         return result;
     }
-
     public CalculateResult EmaCal(List<DailyQuote> dq){
         //start EMA calculate
         //the result set
         //List<CalculateResult> result = new ArrayList<>();
         //The first EMA equals the close price of the first day
-        //CalculateResult cal = new CalculateResult();
+        CalculateResult calculate = new CalculateResult();
         String lastDate = super.extractLastDate(dq,dq.size()).get(0);
-        //cal.date = lastDate;
+        calculate.date = lastDate;
         Double lastEma = super.extractLastClosingPrice(dq,dq.size()).get(0);
-        //cal.data = lastEma;
+        calculate.data = lastEma;
         //result.add(cal);
         //Calcute EMA
         Double[] EMAIndex = getEMAIndex(term);
-        CalculateResult calculate = new CalculateResult();
         for(int i = 1;i<dq.size();i++) {
             String date = super.extractAllDate(dq).get(i);
             calculate.date = date;
@@ -66,5 +59,4 @@ public class EMAIndicators extends TechnicalIndicators {
         }
         return calculate;
     }
-
 }
