@@ -16,6 +16,7 @@ public class MACDIndicators extends TechnicalIndicators {
         List<CalculateResult> res12 = ema12.calculate(dailyQuoteList);
         List<CalculateResult> results = new ArrayList<>();
 
+        System.out.println(ema12);
         int j = 0;
         if(res12.size() > res26.size()){
             for (int i = 0; i < res12.size(); i++) {

@@ -4,18 +4,14 @@ package uk.ac.kcl.sufcwmillionapplication;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.bean.CalculateResult;
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 import uk.ac.kcl.sufcwmillionapplication.indicators.EMAIndicators;
+import uk.ac.kcl.sufcwmillionapplication.indicators.GetTestDataUtil;
 import uk.ac.kcl.sufcwmillionapplication.indicators.MACDIndicators;
 import uk.ac.kcl.sufcwmillionapplication.indicators.SMAIndicators;
-import uk.ac.kcl.sufcwmillionapplication.utils.DailyQuoteUtils;
-import uk.ac.kcl.sufcwmillionapplication.utils.NetworkUtils;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -24,14 +20,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class StrategyUnitTest {
 
-    static ArrayList<DailyQuote> originData;
+    static List<DailyQuote> originData;
 
     @BeforeClass
     public static void setup() {
-        String findQuotedateData = "2019-03-01";
-        String mydata = NetworkUtils.fetchUrl(DailyQuoteUtils.findQuoteUrl(findQuotedateData));
-        originData = DailyQuoteUtils.makeFromCSV(mydata);
-        System.out.println("========  "+DailyQuoteUtils.findQuoteUrl(findQuotedateData)+"  =======");
+        originData = GetTestDataUtil.getData();
         if (originData!=null && originData.size()>0){
             System.out.println("=====origin data init success, total "+originData.size());
         }else {
