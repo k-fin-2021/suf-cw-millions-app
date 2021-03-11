@@ -15,49 +15,15 @@ public class MACDIndicatorsTest {
 
     @Test
     public void testMACD_calculate() {
-        ArrayList<DailyQuote> DailyQuote_test = new ArrayList<DailyQuote>();
-        DailyQuote a = DailyQuote.createByPKDailyQuote("2020-01-01");
-        a.open = 2.0;
-        a.high = 3.0;
-        a.low = 1.0;
-        a.close = 2.0;
-        a.adjclose = 2.0;
-        a.volume = 0.0;
-        DailyQuote_test.add(a);
-
-        DailyQuote b = DailyQuote.createByPKDailyQuote("2020-01-02");
-        b.open = 3.0;
-        b.high = 5.0;
-        b.low = 2.0;
-        b.close = 4.0;
-        b.adjclose = 4.0;
-        b.volume = 0.0;
-        DailyQuote_test.add(b);
-
-        DailyQuote c = DailyQuote.createByPKDailyQuote("2020-01-03");
-        c.open = 3.0;
-        c.high = 3.0;
-        c.low = 1.0;
-        c.close = 1.0;
-        c.adjclose = 1.0;
-        c.volume = 0.0;
-        DailyQuote_test.add(c);
-
-        DailyQuote d = DailyQuote.createByPKDailyQuote("2020-01-04");
-        d.open = 2.0;
-        d.high = 5.0;
-        d.low = 1.0;
-        d.close = 4.0;
-        d.adjclose = 4.0;
-        d.volume = 0.0;
-        DailyQuote_test.add(d);
+        List<DailyQuote> DailyQuote_test = GetTestDataUtil.getData();
 
         macdIndicators = new MACDIndicators();
         List<CalculateResult> result = macdIndicators.calculate(DailyQuote_test);
         for(int i = 0; i < result.size(); i++){
             result.get(i).data = decimal(result.get(i).data);
         }
-        double[] theoretical_result = new double[]{0.0000, 0.1595,0.0434, 0.1912};
+        System.out.println(result);
+        double[] theoretical_result = new double[]{0.0106, 0.0121, 0.0108, 0.0102, 0.0099, 0.0087, 0.0082, 0.006};
         for(int i = 0; i < result.size(); i++){
             Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
         }
