@@ -20,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AnalysisActivity"></activity>
+        <activity android:name=".activity.AnalysisActivity"/>
+        <activity android:name=".activity.DataNotFoundActivity"/>
+        <activity android:name=".activity.InternalErrorActivity"/>
     </application>
 
 </manifest>
