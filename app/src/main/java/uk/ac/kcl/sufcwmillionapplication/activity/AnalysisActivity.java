@@ -188,20 +188,28 @@ public class AnalysisActivity extends AppCompatActivity {
         List<ILineDataSet> dataSets = new ArrayList<>();
         CombinedData data = new CombinedData();
         data.setData(candleData);
-        if(showEMA){
-            dataSets.add(getEMAList());
-        }
-        if(showMACD){
-            dataSets.add(getMACDList());
-        }
-        if(showMACDAVG){
-            dataSets.add(getMACDAVGList());
-        }
-        if(showSMA){
-            dataSets.add(getSMAList());
-        }
-        if(!dataSets.isEmpty()){
-            data.setData(new LineData(dataSets));
+        try{
+            if(showEMA){
+                dataSets.add(getEMAList());
+            }
+            if(showMACD){
+                dataSets.add(getMACDList());
+            }
+            if(showMACDAVG){
+                dataSets.add(getMACDAVGList());
+            }
+            if(showSMA){
+                dataSets.add(getSMAList());
+            }
+            if(!dataSets.isEmpty()){
+                data.setData(new LineData(dataSets));
+            }
+        }catch (Exception ex){
+            Log.e(TAG,"Caught error", ex);
+            Intent jumpToError = new Intent(this, InternalErrorActivity.class);
+            this.startActivityForResult(jumpToError, 1);
+            this.finish();
+            return;
         }
         chart.setData(data);
     }
