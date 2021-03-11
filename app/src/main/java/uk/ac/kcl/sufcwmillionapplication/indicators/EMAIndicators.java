@@ -28,7 +28,6 @@ public class EMAIndicators extends TechnicalIndicators {
                 result.add(EmaCal(dq));
             }
         }else{
-            dq = dailyQuoteList;
             for(int i = 0;i<dailyQuoteList.size();i++){
                 for(int j = 0; j<i ; j++){
                     dq.add(dailyQuoteList.get(j));
