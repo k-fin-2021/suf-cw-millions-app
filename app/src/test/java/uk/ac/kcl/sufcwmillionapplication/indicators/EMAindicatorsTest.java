@@ -45,16 +45,16 @@ public class EMAindicatorsTest {
 
         DailyQuote dq4 = DailyQuote.createByPKDailyQuote("2020-01-04");
         dq4.open = 2.0;
+        dq4.close = 4.0;
         dq4.high = 5.0;
         dq4.low = 1.0;
-        dq4.close = 4.0;
         dq4.adjclose = 4.0;
         dq4.volume = 0.0;
         dailyquote.add(dq4);
 
-        emaIndicators = new EMAIndicators(3);
+        emaIndicators = new EMAIndicators(5);
         List<CalculateResult> result = emaIndicators.calculate(dailyquote);
-        double[] TestResult = new double[]{2.00,2.50,3.25};
+        double[] TestResult = new double[]{1.0,1.333,1.888,2.592};
         for(int i = 0; i < result.size(); i++){
             Assert.assertEquals(result.get(i).data,TestResult[i], 0.001);
         }

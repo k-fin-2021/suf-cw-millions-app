@@ -39,7 +39,7 @@ public class StrategyUnitTest {
         }
     }
 
-    
+
     @Test
     public void test_EMA_strategy(){
         System.out.println("=========== EMA =============");
