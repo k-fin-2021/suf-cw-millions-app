@@ -16,17 +16,12 @@ public class MACDIndicators extends TechnicalIndicators {
         List<CalculateResult> res12 = ema12.calculate(dailyQuoteList);
         List<CalculateResult> results = new ArrayList<>();
 
-        System.out.println(ema12);
         int j = 0;
         if(res12.size() > res26.size()){
             for (int i = 0; i < res12.size(); i++) {
                 CalculateResult cal = new CalculateResult();
                 if(!res12.get(i).date.equals(res26.get(j).date)){
-                    cal.date = res12.get(i).date;
-                    double value1 = res12.get(i).data;
-                    double value2 = res26.get(0).data;
-                    cal.data = value1 - value2;
-                    results.add(cal);
+                    continue;
                 }
                 else {
                     cal.date = res12.get(i).date;
