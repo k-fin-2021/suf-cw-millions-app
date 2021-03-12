@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kcl_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activity.AnalysisActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:background="@color/kcl_grey_bar"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp">
+
+        <ImageButton
+            android:id="@+id/analysis_bar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="#00000000"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/analysis_page_title"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/analysis_board"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/kcl_header_blue"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/analysis_board_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="^HSI"
+                    android:textSize="32sp" />
+
+                <TextView
+                    android:id="@+id/analysis_board_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:text="HANG SENG INDEX"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.CombinedChart
+                android:id="@+id/analysis_chart"
+                android:layout_width="match_parent"
+                android:layout_height="380dp"
+                android:layout_gravity="center_horizontal" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:columnCount="2"
+                android:rowCount="2">
+
+                <CheckBox
+                    android:id="@+id/SMA_CHK"
+                    android:minWidth="120dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center"
+                    android:theme="@style/indicator_checkbox"
+                    android:text="@string/analysis_ind_sma" />
+
+                <CheckBox
+                    android:id="@+id/MACD_CHK"
+                    android:minWidth="120dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center"
+                    android:theme="@style/indicator_checkbox"
+                    android:text="@string/analysis_ind_macd" />
+
+                <CheckBox
+                    android:id="@+id/EMA_CHK"
+                    android:minWidth="120dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center"
+                    android:theme="@style/indicator_checkbox"
+                    android:text="@string/analysis_ind_ema" />
+
+                <CheckBox
+                    android:id="@+id/MACDAVG_CHK"
+                    android:layout_rowWeight="1"
+                    android:minWidth="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center"
+                    android:theme="@style/indicator_checkbox"
+                    android:text="@string/analysis_ind_macdavg" />
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
