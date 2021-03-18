@@ -86,7 +86,7 @@
 
                 <CheckBox
                     android:id="@+id/SMA_CHK"
-                    android:minWidth="120dp"
+                    android:minWidth="180dp"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="center"
@@ -95,7 +95,7 @@
 
                 <CheckBox
                     android:id="@+id/MACD_CHK"
-                    android:minWidth="120dp"
+                    android:minWidth="180dp"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="center"
@@ -104,7 +104,7 @@
 
                 <CheckBox
                     android:id="@+id/EMA_CHK"
-                    android:minWidth="120dp"
+                    android:minWidth="180dp"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="center"
@@ -114,7 +114,7 @@
                 <CheckBox
                     android:id="@+id/MACDAVG_CHK"
                     android:layout_rowWeight="1"
-                    android:minWidth="120dp"
+                    android:minWidth="180dp"
                     android:layout_columnWeight="1"
                     android:layout_gravity="center"
                     android:theme="@style/indicator_checkbox"
