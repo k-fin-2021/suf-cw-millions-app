@@ -307,23 +307,23 @@ public class AnalysisActivity extends AppCompatActivity {
     }
 
     private ILineDataSet getEMAList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.EMA_9).calculate(this.quotesCal);
-        return extractData(res,"EMA", Color.rgb(15,125,254));
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.EMA_26).calculate(this.quotesCal);
+        return extractData(res,"EMA(26)", Color.rgb(15,125,254));
     }
 
     private ILineDataSet getSMAList(){
-        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.SMA_20).calculate(this.quotesCal);
-        return extractData(res, "SMA",Color.rgb(251,83,7));
+        List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.SMA_26).calculate(this.quotesCal);
+        return extractData(res, "SMA(26)",Color.rgb(251,83,7));
     }
 
     private ILineDataSet getMACDList(){
         List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.MACD_12_26).calculate(this.quotesCal);
-        return extractData(res,"MACD",Color.rgb(39,187,209));
+        return extractData(res,"MACD(12,26)",Color.rgb(39,187,209));
     }
 
     private ILineDataSet getMACDAVGList(){
         List<CalculateResult> res = IndicatorFactory.get(IndicatorNames.MACD_AVG).calculate(this.quotesCal);
-        return extractData(res,"MACDAVG",Color.rgb(106,62,181));
+        return extractData(res,"MACDAVG(12,26,9)",Color.rgb(106,62,181));
     }
 
     private ILineDataSet extractData(List<CalculateResult> res, String label, int color){

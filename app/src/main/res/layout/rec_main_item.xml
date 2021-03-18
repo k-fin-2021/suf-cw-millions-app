@@ -22,7 +22,6 @@
 
     <EditText
         android:id="@+id/search"
-        android:text="@string/initial_symbol_name"
         android:hint="@string/symbol_name"
         android:textSize="20sp"
         android:padding="10dp"
