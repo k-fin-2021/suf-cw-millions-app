@@ -18,45 +18,61 @@ public class EMAIndicators extends TechnicalIndicators {
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
         //if the length of dailyQuoteList bigger than term, we get the most recent term data of dailyQuoteList
-        List<DailyQuote> dq = new ArrayList<DailyQuote>();
+        //List<DailyQuote> dq = new ArrayList<DailyQuote>();
         List<CalculateResult> result = new ArrayList<>();
-        if(dailyQuoteList.size()>=term){
-            for(int i = 0;i<dailyQuoteList.size()-term+1;i++){
-                for(int j = i;j<i+term;j++){
-                    dq.add(dailyQuoteList.get(j));
-                }
-                result.add(EmaCal(dq));
-                dq.clear();
-            }
-        }else{
-            for(int i = 0;i<dailyQuoteList.size();i++){
-                dq.add(dailyQuoteList.get(i));
-                result.add(EmaCal(dq));
-            }
+        Double[] EMAIndex = getEMAIndex(term);
+        if(dailyQuoteList.isEmpty() || dailyQuoteList == null){
+            return result;
         }
+        if(result.isEmpty()){
+            CalculateResult calculateResult = new CalculateResult();
+            calculateResult.data = dailyQuoteList.get(0).close;
+            calculateResult.date = dailyQuoteList.get(0).date;
+            result.add(calculateResult);
+        }
+        for(int i = 1;i < dailyQuoteList.size() ; i++) {
+            CalculateResult calculateResult = new CalculateResult();
+            calculateResult.date = dailyQuoteList.get(i).date;
+            calculateResult.data= EMAIndex[0] * dailyQuoteList.get(i).close + EMAIndex[1] * result.get(i-1).data;
+            result.add(calculateResult);
+        }
+//        if(dailyQuoteList.size()>=term){
+//            for(int i = 0;i<dailyQuoteList.size()-term+1;i++){
+//                for(int j = i;j<i+term;j++){
+//                    dq.add(dailyQuoteList.get(j));
+//                }
+//                result.add(EmaCal(dq));
+//                dq.clear();
+//            }
+//        }else{
+//            for(int i = 0;i<dailyQuoteList.size();i++){
+//                dq.add(dailyQuoteList.get(i));
+//                result.add(EmaCal(dq));
+//            }
+//        }
         return result;
     }
-    public CalculateResult EmaCal(List<DailyQuote> dq){
-        //start EMA calculate
-        //the result set
-        //List<CalculateResult> result = new ArrayList<>();
-        //The first EMA equals the close price of the first day
-        CalculateResult calculate = new CalculateResult();
-        String lastDate = super.extractLastDate(dq,dq.size()).get(0);
-        calculate.date = lastDate;
-        Double lastEma = super.extractLastClosingPrice(dq,dq.size()).get(0);
-        calculate.data = lastEma;
-        //result.add(cal);
-        //Calcute EMA
-        Double[] EMAIndex = getEMAIndex(term);
-        for(int i = 1;i<dq.size();i++) {
-            String date = super.extractAllDate(dq).get(i);
-            calculate.date = date;
-            Double ema = EMAIndex[0] * super.extractAllClosingPrice(dq).get(i) + EMAIndex[1] * lastEma;
-            calculate.data = ema;
-            //result.add(calculate);
-            lastEma = ema;
-        }
-        return calculate;
-    }
+//    public CalculateResult EmaCal(List<DailyQuote> dq){
+//        //start EMA calculate
+//        //the result set
+//        //List<CalculateResult> result = new ArrayList<>();
+//        //The first EMA equals the close price of the first day
+//        CalculateResult calculate = new CalculateResult();
+//        String lastDate = super.extractLastDate(dq,dq.size()).get(0);
+//        calculate.date = lastDate;
+//        Double lastEma = super.extractLastClosingPrice(dq,dq.size()).get(0);
+//        calculate.data = lastEma;
+//        //result.add(cal);
+//        //Calcute EMA
+//        Double[] EMAIndex = getEMAIndex(term);
+//        for(int i = 1;i<dq.size();i++) {
+//            String date = super.extractAllDate(dq).get(i);
+//            calculate.date = date;
+//            Double ema = EMAIndex[0] * super.extractAllClosingPrice(dq).get(i) + EMAIndex[1] * lastEma;
+//            calculate.data = ema;
+//            //result.add(calculate);
+//            lastEma = ema;
+//        }
+//        return calculate;
+//    }
 }
