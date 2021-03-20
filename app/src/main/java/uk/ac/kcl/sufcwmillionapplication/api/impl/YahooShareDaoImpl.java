@@ -21,6 +21,8 @@ import uk.ac.kcl.sufcwmillionapplication.utils.NetworkUtils;
 
 public class YahooShareDaoImpl implements ShareDao {
 
+    private static final String TAG = "YahooShareDaoImpl";
+
     private static final String YAHOO_FINANCE_API = "https://query1.finance.yahoo.com/";
     private static final String YAHOO_FINANCE_QUOTE = "https://finance.yahoo.com/quote/";
 
@@ -44,7 +46,6 @@ public class YahooShareDaoImpl implements ShareDao {
         String jsonString = htmlSplit1[1].split("\\(this\\)")[0];
         jsonString = jsonString.split(";\n")[0];
         Gson gson = new Gson();
-
         try{
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
             JsonObject ctx = jsonObject.getAsJsonObject("context");
@@ -52,8 +53,14 @@ public class YahooShareDaoImpl implements ShareDao {
             JsonObject stores = dispatcher.getAsJsonObject("stores");
             JsonObject quoteSummaryStore = stores.getAsJsonObject("QuoteSummaryStore");
             JsonObject quoteType = quoteSummaryStore.getAsJsonObject("quoteType");
-            symbolInfo.setLongName(quoteType.get("longName").getAsString());
-            symbolInfo.setShortName(quoteType.get("shortName").getAsString());
+            String quoteTypeStr = quoteType.get("quoteType").getAsString();
+            if(quoteTypeStr != null && quoteTypeStr.equalsIgnoreCase("CURRENCY")){
+                symbolInfo.setLongName(quoteType.get("shortName").getAsString());
+                symbolInfo.setShortName(quoteType.get("shortName").getAsString());
+            }else{
+                symbolInfo.setLongName(quoteType.get("longName").getAsString());
+                symbolInfo.setShortName(quoteType.get("shortName").getAsString());
+            }
             symbolInfo.setSymbol(symbol);
         }catch (Exception ex){
             ex.printStackTrace();
@@ -104,16 +111,20 @@ public class YahooShareDaoImpl implements ShareDao {
             int size = timestamp.size();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < size ; i ++){
-                Date date = new Date(timestamp.get(i).getAsLong() * 1000);
-                DailyQuote dailyQuote = DailyQuote.createDailyQuote();
-                dailyQuote.adjclose =  new BigDecimal(adjcloseList.get(i).getAsString()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                dailyQuote.close = new BigDecimal(closeList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                dailyQuote.open = new BigDecimal(openList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                dailyQuote.date = sdf.format(date);
-                dailyQuote.high = new BigDecimal(highList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                dailyQuote.low = new BigDecimal(lowList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                dailyQuote.volume = new BigDecimal(volumeList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                quotes.add(dailyQuote);
+                try{
+                    Date date = new Date(timestamp.get(i).getAsLong() * 1000);
+                    DailyQuote dailyQuote = DailyQuote.createDailyQuote();
+                    dailyQuote.adjclose =  new BigDecimal(adjcloseList.get(i).getAsString()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    dailyQuote.close = new BigDecimal(closeList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    dailyQuote.open = new BigDecimal(openList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    dailyQuote.date = sdf.format(date);
+                    dailyQuote.high = new BigDecimal(highList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    dailyQuote.low = new BigDecimal(lowList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    dailyQuote.volume = new BigDecimal(volumeList.get(i).getAsDouble()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    quotes.add(dailyQuote);
+                }catch (Exception ex){
+                    Log.w(TAG, "Data at " + timestamp.get(i) +" may have problem.");
+                }
             }
 
         }catch (Exception ex){
