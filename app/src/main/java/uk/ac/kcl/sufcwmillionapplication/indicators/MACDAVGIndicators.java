@@ -68,7 +68,6 @@ public class MACDAVGIndicators extends TechnicalIndicators {
             result.add(calculateResult);
             System.out.println("MACDAVG:"+result.get(i).data+','+result.get(i).date);
         }
-        System.out.println("-------------");
         return result;
 
     }
