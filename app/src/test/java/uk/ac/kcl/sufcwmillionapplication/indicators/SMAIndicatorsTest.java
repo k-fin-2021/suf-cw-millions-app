@@ -16,7 +16,7 @@ public class SMAIndicatorsTest {
     @Test
     public void testSMACalculate() {
         List<DailyQuote> DailyQuote_test = GetTestDataUtil.getData();
-        smaIndicators = new SMAIndicators();
+        smaIndicators = new SMAIndicators(26);
         List<CalculateResult> result = smaIndicators.calculate(DailyQuote_test);
         for(int i = 0; i < result.size(); i++){
             result.get(i).data = decimal(result.get(i).data);
