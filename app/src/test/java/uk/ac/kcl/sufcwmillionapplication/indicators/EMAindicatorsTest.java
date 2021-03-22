@@ -108,11 +108,4 @@ public class EMAindicatorsTest {
         }
     }
 
-    private static class TestIndicators extends TechnicalIndicators{
-
-        @Override
-        public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
-            return null;
-        }
-    }
 }

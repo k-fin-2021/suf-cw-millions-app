@@ -68,13 +68,5 @@ public class MACDAVGIndicatorsTest {
         return result;
     }
 
-
-    private static class TestIndicators extends TechnicalIndicators{
-
-        @Override
-        public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
-            return null;
-        }
-    }
 }
 
