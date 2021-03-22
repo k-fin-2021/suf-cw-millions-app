@@ -15,61 +15,49 @@ public class MACDAVGIndicatorsTest {
 
     @Test
     public void testMACDAVG_calculate() {
-        ArrayList<DailyQuote> DailyQuote_test = new ArrayList<DailyQuote>();
-        DailyQuote a = DailyQuote.createByPKDailyQuote("2020-01-01");
-        a.open = 2.0;
-        a.high = 3.0;
-        a.low = 1.0;
-        a.close = 2.0;
-        a.adjclose = 2.0;
-        a.volume = 0.0;
-        DailyQuote_test.add(a);
-
-        DailyQuote b = DailyQuote.createByPKDailyQuote("2020-01-02");
-        b.open = 3.0;
-        b.high = 5.0;
-        b.low = 2.0;
-        b.close = 4.0;
-        b.adjclose = 4.0;
-        b.volume = 0.0;
-        DailyQuote_test.add(b);
-
-        DailyQuote c = DailyQuote.createByPKDailyQuote("2020-01-03");
-        c.open = 3.0;
-        c.high = 3.0;
-        c.low = 1.0;
-        c.close = 1.0;
-        c.adjclose = 1.0;
-        c.volume = 0.0;
-        DailyQuote_test.add(c);
-
-        DailyQuote d = DailyQuote.createByPKDailyQuote("2020-01-04");
-        d.open = 2.0;
-        d.high = 5.0;
-        d.low = 1.0;
-        d.close = 4.0;
-        d.adjclose = 4.0;
-        d.volume = 0.0;
-        DailyQuote_test.add(d);
+        List<DailyQuote> DailyQuote_test = GetTestDataUtil.getData();
 
         macdavgIndicators = new MACDAVGIndicators();
         List<CalculateResult> result = macdavgIndicators.calculate(DailyQuote_test);
+        System.out.println(result);
+             double[] theoretical_result = new double[]{0.00,
+                     3.8673504273534226E-5,
+                     1.967773209633528E-4,
+                     3.551573104387398E-4,
+                     4.899043664614696E-4,
+                     7.014693293685521E-4,
+                     8.334136903770239E-4,
+                     9.95327739098994E-4,
+                     0.0011216823878472224,
+                     0.0011863830780727812,
+                     0.001175345107222501,
+                     0.0010983661595665314,
+                     0.0010247772541098665,
+                     0.0010546619194251958,
+                     0.0011565676052319798,
+                     0.0014109710283751798,
+                     0.0017677143444114797,
+                     0.0021302141503220665,
+                     0.0025702645545897193,
+                     0.003098982743918218,
+                     0.0036059462661088724,
+                     0.0040297630287795,
+                     0.0045313623385995,
+                     0.0051467053612437585,
+                     0.005853298358006742,
+                     0.006645007720807561,
+                     0.007478026890093048,
+                     0.008052672792141299,
+                     0.008360068148253335,
+                     0.00839616763776417,
+                     0.008281815117675374,
+                     0.008015624398622363,
+                     0.007597475291932782
+                     };
         for(int i = 0; i < result.size(); i++){
-            result.get(i).data = decimal(result.get(i).data);
-        }
-        double[] theoretical_result = new double[]{0.0000, 0.0319,0.0342, 0.0656};
-        for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
-            System.out.println(result.get(i).data);
+            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.0001);
         }
     }
-
-    public double decimal(double value){
-        BigDecimal bd = new BigDecimal(value);
-        double result = bd.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-        return result;
-    }
-
 
     private static class TestIndicators extends TechnicalIndicators{
 

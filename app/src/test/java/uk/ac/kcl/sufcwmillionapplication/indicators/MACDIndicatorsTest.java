@@ -15,51 +15,50 @@ public class MACDIndicatorsTest {
 
     @Test
     public void testMACD_calculate() {
-        ArrayList<DailyQuote> DailyQuote_test = new ArrayList<DailyQuote>();
-        DailyQuote a = DailyQuote.createByPKDailyQuote("2020-01-01");
-        a.open = 2.0;
-        a.high = 3.0;
-        a.low = 1.0;
-        a.close = 2.0;
-        a.adjclose = 2.0;
-        a.volume = 0.0;
-        DailyQuote_test.add(a);
-
-        DailyQuote b = DailyQuote.createByPKDailyQuote("2020-01-02");
-        b.open = 3.0;
-        b.high = 5.0;
-        b.low = 2.0;
-        b.close = 4.0;
-        b.adjclose = 4.0;
-        b.volume = 0.0;
-        DailyQuote_test.add(b);
-
-        DailyQuote c = DailyQuote.createByPKDailyQuote("2020-01-03");
-        c.open = 3.0;
-        c.high = 3.0;
-        c.low = 1.0;
-        c.close = 1.0;
-        c.adjclose = 1.0;
-        c.volume = 0.0;
-        DailyQuote_test.add(c);
-
-        DailyQuote d = DailyQuote.createByPKDailyQuote("2020-01-04");
-        d.open = 2.0;
-        d.high = 5.0;
-        d.low = 1.0;
-        d.close = 4.0;
-        d.adjclose = 4.0;
-        d.volume = 0.0;
-        DailyQuote_test.add(d);
+        List<DailyQuote> DailyQuote_test = GetTestDataUtil.getData();
 
         macdIndicators = new MACDIndicators();
         List<CalculateResult> result = macdIndicators.calculate(DailyQuote_test);
         for(int i = 0; i < result.size(); i++){
             result.get(i).data = decimal(result.get(i).data);
         }
-        double[] theoretical_result = new double[]{0.0000, 0.1595,0.0434, 0.1912};
+        System.out.println(result);
+        double[] theoretical_result = new double[]{0.00,
+                0.000193368,
+                0.000829193,
+                0.000988677,
+                0.001028893,
+                0.001547729,
+                0.001361191,
+                0.001642984,
+                0.001627101,
+                0.001445186,
+                0.001131193,
+                0.00079045,
+                0.000730422,
+                0.001174201,
+                0.00156419,
+                0.002428585,
+                0.003194688,
+                0.003580213,
+                0.004330466,
+                0.005213856,
+                0.0056338,
+                0.00572503,
+                0.00653776,
+                0.007608077,
+                0.00867967,
+                0.009811845,
+                0.010810104,
+                0.010351256,
+                0.00958965,
+                0.008540566,
+                0.007824405,
+                0.006950862,
+                0.005924879
+        };
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.0001);
         }
     }
 

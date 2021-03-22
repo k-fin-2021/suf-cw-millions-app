@@ -1,6 +1,5 @@
 package uk.ac.kcl.sufcwmillionapplication.api;
 
-import java.util.Date;
 import java.util.List;
 
 import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;

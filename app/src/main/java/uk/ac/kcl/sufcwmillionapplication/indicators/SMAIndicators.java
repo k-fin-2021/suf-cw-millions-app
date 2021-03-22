@@ -8,10 +8,19 @@ import uk.ac.kcl.sufcwmillionapplication.bean.DailyQuote;
 
 public class SMAIndicators extends TechnicalIndicators {
 
+    private int dataFrame = 0;
+
+    public SMAIndicators(){
+        this.dataFrame = 26;
+    }
+
+    public SMAIndicators(int Term){
+        this.dataFrame = Term;
+    }
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
         double result = 0;
-        int dataFrame = 26;
+        dataFrame = 26;
         List<CalculateResult> results = new ArrayList<>();
         if (dailyQuoteList.size()<dataFrame){
             for (DailyQuote dailyQuote:dailyQuoteList){

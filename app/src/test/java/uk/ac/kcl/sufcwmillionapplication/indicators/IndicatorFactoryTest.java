@@ -7,12 +7,12 @@ public class IndicatorFactoryTest {
 
     @Test
     public void testGetBean(){
-        TechnicalIndicators ema9 = IndicatorFactory.get(IndicatorNames.EMA_9);
+        TechnicalIndicators ema9 = IndicatorFactory.get(IndicatorNames.EMA_26);
         Assert.assertNotNull(ema9);
         Assert.assertTrue(ema9 instanceof EMAIndicators);
 
 
-        TechnicalIndicators reGetEma = IndicatorFactory.get(IndicatorNames.EMA_9);
+        TechnicalIndicators reGetEma = IndicatorFactory.get(IndicatorNames.EMA_26);
         Assert.assertNotNull(reGetEma);
 
         TechnicalIndicators macd = IndicatorFactory.get(IndicatorNames.MACD_12_26);
