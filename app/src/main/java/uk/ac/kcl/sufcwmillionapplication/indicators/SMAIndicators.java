@@ -17,6 +17,7 @@ public class SMAIndicators extends TechnicalIndicators {
     public SMAIndicators(int Term){
         this.dataFrame = Term;
     }
+
     @Override
     public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
         double result = 0;
