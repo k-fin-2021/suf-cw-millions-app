@@ -56,9 +56,9 @@ public class EMAindicatorsTest {
 
         emaIndicators = new EMAIndicators(5);
         List<CalculateResult> result = emaIndicators.calculate(dailyquote);
-        double[] TestResult = new double[]{1.0,1.333,1.888,2.592};
+        double[] TestResult = new double[]{1.0,1.333333,1.888888,2.592592};
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,TestResult[i], 0.001);
+            Assert.assertEquals(result.get(i).data,TestResult[i], 0.0001);
         }
     }
     @Test
@@ -104,7 +104,7 @@ public class EMAindicatorsTest {
                 1.388906
         };
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,expect_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,expect_result[i], 0.0001);
         }
     }
 
