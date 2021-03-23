@@ -15,5 +15,6 @@
     <string name="not_found_share_data_not_found">Share data not found</string>
     <string name="error_page_internal_error_default">Internal Error occurs</string>
     <string name="rec_whiteboard_no_recent_search">No Recent Search</string>
-    <string name="rec_whiteboard_recent_history">Recent Search History</string>
+    <string name="rec_whiteboard_recent_history">Recent Search</string>
+    <string name="analysis_technical_indicators">Technical Indicators</string>
 </resources>
