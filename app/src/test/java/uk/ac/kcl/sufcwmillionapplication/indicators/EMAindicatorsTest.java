@@ -18,7 +18,7 @@ public class EMAindicatorsTest {
     @Test
     public void testEMA_calculate1() {
         List<DailyQuote> dailyquote = new ArrayList<DailyQuote>();
-        DailyQuote dq1 = DailyQuote.createByPKDailyQuote("2020-01-01");
+        DailyQuote dq1 = DailyQuote.createDailyQuote("2020-01-01");
         dq1.open = 2.0;
         dq1.high = 3.0;
         dq1.low = 1.0;
@@ -27,7 +27,7 @@ public class EMAindicatorsTest {
         dq1.volume = 0.0;
         dailyquote.add(dq1);
 
-        DailyQuote dq2 = DailyQuote.createByPKDailyQuote("2020-01-02");
+        DailyQuote dq2 = DailyQuote.createDailyQuote("2020-01-02");
         dq2.open = 3.0;
         dq2.high = 5.0;
         dq2.low = 2.0;
@@ -36,7 +36,7 @@ public class EMAindicatorsTest {
         dq2.volume = 0.0;
         dailyquote.add(dq2);
 
-        DailyQuote dq3 = DailyQuote.createByPKDailyQuote("2020-01-03");
+        DailyQuote dq3 = DailyQuote.createDailyQuote("2020-01-03");
         dq3.open = 3.0;
         dq3.high = 3.0;
         dq3.low = 1.0;
@@ -45,7 +45,7 @@ public class EMAindicatorsTest {
         dq3.volume = 0.0;
         dailyquote.add(dq3);
 
-        DailyQuote dq4 = DailyQuote.createByPKDailyQuote("2020-01-04");
+        DailyQuote dq4 = DailyQuote.createDailyQuote("2020-01-04");
         dq4.open = 2.0;
         dq4.close = 4.0;
         dq4.high = 5.0;
@@ -108,11 +108,4 @@ public class EMAindicatorsTest {
         }
     }
 
-    private static class TestIndicators extends TechnicalIndicators{
-
-        @Override
-        public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
-            return null;
-        }
-    }
 }
