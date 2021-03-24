@@ -416,7 +416,17 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //DO Nothing;
             }
         });
-        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setBackgroundColor(mContext.getResources().getColor(R.color.kcl_grey));
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(mContext.getResources().getColor(R.color.white));
+            }
+        });
+        dialog.show();
     }
 
 }
