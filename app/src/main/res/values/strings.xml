@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SufCwMillionApplication</string>
+    <string name="app_name">Share Price Helper </string>
     <string name="symbol_name">Symbol Name</string>
     <string name="analysis_page_title">Analysis</string>
     <string name="index_start_date">Start Date</string>
