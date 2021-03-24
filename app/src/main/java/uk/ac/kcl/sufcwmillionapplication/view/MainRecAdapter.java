@@ -330,7 +330,7 @@ public class MainRecAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String beginDate = sdf.format(tmpHistory.getStartDate());
             long timeStamp = tmpHistory.getStartDate().getTime();
-            timeStamp = timeStamp - (1000L * 3600 * 24 * 40);
+            timeStamp = timeStamp - (1000L * 3600 * 24 * 56);
             tmpHistory.getStartDate().setTime(timeStamp);
             List<DailyQuote> quotesCal;
             SymbolInfo symbolInfo;

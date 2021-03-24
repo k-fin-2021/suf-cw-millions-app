@@ -6,27 +6,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DailyQuote implements Serializable {
-    static ArrayList<DailyQuote> DailyQuote_allInstances = new ArrayList<DailyQuote>();
 
-    DailyQuote() {
-        DailyQuote_allInstances.add(this);
+    private DailyQuote() {
+
     }
 
-    // TODO: There is a code quality concern for this class...
     public static DailyQuote createDailyQuote() {
         DailyQuote result = new DailyQuote();
         return result;
     }
 
-    public String date = ""; /* primary */
-    public static Map<String, DailyQuote> DailyQuote_index = new HashMap<String, DailyQuote>();
-
-    public static DailyQuote createByPKDailyQuote(String datex) {
+    public static DailyQuote createDailyQuote(String date) {
         DailyQuote result = new DailyQuote();
-        DailyQuote.DailyQuote_index.put(datex, result);
-        result.date = datex;
+        result.date = date;
         return result;
     }
+
+    public String date = ""; /* primary */
 
     public double open = 0;
     public double high = 0;

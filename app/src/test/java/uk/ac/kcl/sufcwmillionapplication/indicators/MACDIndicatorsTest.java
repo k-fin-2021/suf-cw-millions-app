@@ -23,9 +23,42 @@ public class MACDIndicatorsTest {
             result.get(i).data = decimal(result.get(i).data);
         }
         System.out.println(result);
-        double[] theoretical_result = new double[]{0.0106, 0.0121, 0.0108, 0.0102, 0.0099, 0.0087, 0.0082, 0.006};
+        double[] theoretical_result = new double[]{0.00,
+                0.0002,
+                0.0008,
+                0.0010,
+                0.0010,
+                0.0015,
+                0.0014,
+                0.0016,
+                0.0016,
+                0.0014,
+                0.0011,
+                0.0008,
+                0.0007,
+                0.0011,
+                0.0016,
+                0.0024,
+                0.0032,
+                0.0036,
+                0.0043,
+                0.0052,
+                0.0056,
+                0.0057,
+                0.0065,
+                0.0076,
+                0.0087,
+                0.0098,
+                0.0108,
+                0.0104,
+                0.0096,
+                0.0085,
+                0.0078,
+                0.0070,
+                0.0059
+        };
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.0001);
         }
     }
 

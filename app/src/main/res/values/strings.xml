@@ -1,14 +1,13 @@
 <resources>
-    <string name="app_name">SufCwMillionApplication</string>
+    <string name="app_name">Share Price Helper </string>
     <string name="symbol_name">Symbol Name</string>
-    <string name="initial_symbol_name">0005.HK</string>
     <string name="analysis_page_title">Analysis</string>
     <string name="index_start_date">Start Date</string>
     <string name="index_end_date">End Date</string>
-    <string name="analysis_ind_macdavg">MACDAVG</string>
-    <string name="analysis_ind_ema">EMA</string>
-    <string name="analysis_ind_macd">MACD</string>
-    <string name="analysis_ind_sma">SMA</string>
+    <string name="analysis_ind_macdavg">MACDAVG(12,26,9)</string>
+    <string name="analysis_ind_ema">EMA(26)</string>
+    <string name="analysis_ind_macd">MACD(12,26)</string>
+    <string name="analysis_ind_sma">SMA(26)</string>
     <string name="error_page_sorry">Sorry</string>
     <string name="error_page_heade_title">Something goes wrong ...</string>
     <string name="error_page_error">Error</string>
@@ -16,5 +15,6 @@
     <string name="not_found_share_data_not_found">Share data not found</string>
     <string name="error_page_internal_error_default">Internal Error occurs</string>
     <string name="rec_whiteboard_no_recent_search">No Recent Search</string>
-    <string name="rec_whiteboard_recent_history">Recent Search History</string>
+    <string name="rec_whiteboard_recent_history">Recent Search</string>
+    <string name="analysis_technical_indicators">Technical Indicators</string>
 </resources>

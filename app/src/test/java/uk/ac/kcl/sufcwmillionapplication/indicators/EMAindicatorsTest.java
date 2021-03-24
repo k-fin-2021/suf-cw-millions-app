@@ -18,7 +18,7 @@ public class EMAindicatorsTest {
     @Test
     public void testEMA_calculate1() {
         List<DailyQuote> dailyquote = new ArrayList<DailyQuote>();
-        DailyQuote dq1 = DailyQuote.createByPKDailyQuote("2020-01-01");
+        DailyQuote dq1 = DailyQuote.createDailyQuote("2020-01-01");
         dq1.open = 2.0;
         dq1.high = 3.0;
         dq1.low = 1.0;
@@ -27,7 +27,7 @@ public class EMAindicatorsTest {
         dq1.volume = 0.0;
         dailyquote.add(dq1);
 
-        DailyQuote dq2 = DailyQuote.createByPKDailyQuote("2020-01-02");
+        DailyQuote dq2 = DailyQuote.createDailyQuote("2020-01-02");
         dq2.open = 3.0;
         dq2.high = 5.0;
         dq2.low = 2.0;
@@ -36,7 +36,7 @@ public class EMAindicatorsTest {
         dq2.volume = 0.0;
         dailyquote.add(dq2);
 
-        DailyQuote dq3 = DailyQuote.createByPKDailyQuote("2020-01-03");
+        DailyQuote dq3 = DailyQuote.createDailyQuote("2020-01-03");
         dq3.open = 3.0;
         dq3.high = 3.0;
         dq3.low = 1.0;
@@ -45,7 +45,7 @@ public class EMAindicatorsTest {
         dq3.volume = 0.0;
         dailyquote.add(dq3);
 
-        DailyQuote dq4 = DailyQuote.createByPKDailyQuote("2020-01-04");
+        DailyQuote dq4 = DailyQuote.createDailyQuote("2020-01-04");
         dq4.open = 2.0;
         dq4.close = 4.0;
         dq4.high = 5.0;
@@ -56,9 +56,9 @@ public class EMAindicatorsTest {
 
         emaIndicators = new EMAIndicators(5);
         List<CalculateResult> result = emaIndicators.calculate(dailyquote);
-        double[] TestResult = new double[]{1.0,1.333,1.888,2.592};
+        double[] TestResult = new double[]{1.0,1.3333,1.8889,2.5926};
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,TestResult[i], 0.001);
+            Assert.assertEquals(result.get(i).data,TestResult[i], 0.0001);
         }
     }
     @Test
@@ -69,25 +69,43 @@ public class EMAindicatorsTest {
         for(int i = 0; i < result.size(); i++){
             System.out.println(result.get(i).date+", "+result.get(i).data);
         }
-        double[] expect_result = new double[]{1.383390273713844,
-                1.3860466491808818,
-                1.387965196650876,
-                1.388095204404908,
-                1.3883304462171138,
-                1.3897071983613418,
-                1.3889536029751894,
-                1.389738996767223
+        double[] expect_result = new double[]{1.3644,
+                1.3646,
+                1.3652,
+                1.3655,
+                1.3657,
+                1.3663,
+                1.3663,
+                1.3668,
+                1.3670,
+                1.3671,
+                1.3670,
+                1.3668,
+                1.3669,
+                1.3674,
+                1.3679,
+                1.3690,
+                1.3700,
+                1.3709,
+                1.3720,
+                1.3735,
+                1.3746,
+                1.3755,
+                1.3771,
+                1.3790,
+                1.3810,
+                1.3834,
+                1.3857,
+                1.3868,
+                1.3876,
+                1.3880,
+                1.3886,
+                1.3888,
+                1.3889
         };
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,expect_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,expect_result[i], 0.0001);
         }
     }
 
-    private static class TestIndicators extends TechnicalIndicators{
-
-        @Override
-        public List<CalculateResult> calculate(List<DailyQuote> dailyQuoteList) {
-            return null;
-        }
-    }
 }

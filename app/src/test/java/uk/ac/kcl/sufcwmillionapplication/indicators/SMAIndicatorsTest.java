@@ -16,7 +16,7 @@ public class SMAIndicatorsTest {
     @Test
     public void testSMACalculate() {
         List<DailyQuote> DailyQuote_test = GetTestDataUtil.getData();
-        smaIndicators = new SMAIndicators();
+        smaIndicators = new SMAIndicators(26);
         List<CalculateResult> result = smaIndicators.calculate(DailyQuote_test);
         for(int i = 0; i < result.size(); i++){
             result.get(i).data = decimal(result.get(i).data);
@@ -28,10 +28,10 @@ public class SMAIndicatorsTest {
                 1.3833,
                 1.3843,
                 1.3853,
-                1.386,
+                1.3860,
                 1.3869};
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.0001);
         }
     }
 
