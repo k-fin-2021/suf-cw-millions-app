@@ -28,10 +28,10 @@ public class SMAIndicatorsTest {
                 1.3833,
                 1.3843,
                 1.3853,
-                1.386,
+                1.3860,
                 1.3869};
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,theoretical_result[i], 0.0001);
         }
     }
 
