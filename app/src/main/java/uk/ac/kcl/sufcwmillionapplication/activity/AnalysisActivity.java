@@ -106,7 +106,17 @@ public class AnalysisActivity extends AppCompatActivity {
                 //DO Nothing;
             }
         });
-        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setBackgroundColor(getResources().getColor(R.color.kcl_grey));
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(getResources().getColor(R.color.white));
+            }
+        });
+        dialog.show();
     }
 
     private void initListeners(){
