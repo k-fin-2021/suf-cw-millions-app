@@ -56,9 +56,9 @@ public class EMAindicatorsTest {
 
         emaIndicators = new EMAIndicators(5);
         List<CalculateResult> result = emaIndicators.calculate(dailyquote);
-        double[] TestResult = new double[]{1.0,1.333,1.888,2.592};
+        double[] TestResult = new double[]{1.0,1.3333,1.8889,2.5926};
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,TestResult[i], 0.001);
+            Assert.assertEquals(result.get(i).data,TestResult[i], 0.0001);
         }
     }
     @Test
@@ -69,42 +69,42 @@ public class EMAindicatorsTest {
         for(int i = 0; i < result.size(); i++){
             System.out.println(result.get(i).date+", "+result.get(i).data);
         }
-        double[] expect_result = new double[]{1.364424,
-                1.364603,
-                1.365221,
-                1.365488,
-                1.365666,
-                1.366295,
-                1.366343,
-                1.366799,
-                1.367019,
-                1.367082,
-                1.366997,
-                1.366843,
-                1.366900,
-                1.367416,
-                1.367946,
-                1.368972,
-                1.370030,
-                1.370845,
-                1.372053,
-                1.373492,
-                1.374627,
-                1.375516,
-                1.377089,
-                1.379017,
-                1.381099,
-                1.383390,
-                1.385718,
-                1.386837,
-                1.387608,
-                1.388004,
-                1.388559,
-                1.388866,
-                1.388906
+        double[] expect_result = new double[]{1.3644,
+                1.3646,
+                1.3652,
+                1.3655,
+                1.3657,
+                1.3663,
+                1.3663,
+                1.3668,
+                1.3670,
+                1.3671,
+                1.3670,
+                1.3668,
+                1.3669,
+                1.3674,
+                1.3679,
+                1.3690,
+                1.3700,
+                1.3709,
+                1.3720,
+                1.3735,
+                1.3746,
+                1.3755,
+                1.3771,
+                1.3790,
+                1.3810,
+                1.3834,
+                1.3857,
+                1.3868,
+                1.3876,
+                1.3880,
+                1.3886,
+                1.3888,
+                1.3889
         };
         for(int i = 0; i < result.size(); i++){
-            Assert.assertEquals(result.get(i).data,expect_result[i], 0.001);
+            Assert.assertEquals(result.get(i).data,expect_result[i], 0.0001);
         }
     }
 
