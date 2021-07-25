@@ -1,6 +1,10 @@
-# SUF Coursework - 2021
+# Share Data Analysis App
+
+Software Engineering for Finance (postgraduate) Coursework - 2021
 
 ![Android CW App CI](https://github.com/ousheobin/suf-cw-millions-app/workflows/Android%20CW%20App%20CI/badge.svg?branch=master)
+
+![ScreenShots](screenshots/screenshots.png)
 
 ## Recommended Local environment
 
